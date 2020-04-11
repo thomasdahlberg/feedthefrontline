@@ -1,3 +1,32 @@
 body {
-    background-color: red;
-}
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    font-family: 'Comfortaa', cursive;
+    font-weight: 400;
+  }
+  nav {
+      background-color: #d9753b;
+  }
+  .nav-wrapper {
+     margin: 0 2rem;
+  }
+  a.brand-logo {
+    font-family: 'Libre Franklin', Helvetica, Arial, sans-serif;
+    font-weight: 900;
+  }
+  main {
+    flex: 1 0 auto;
+  }
+  h1 {
+    font-family: 'Libre Franklin', Helvetica, Arial, sans-serif;
+    font-weight: 900;
+  }
+  footer {
+    padding-top: 0;
+    background-color: black;
+  }  
+  footer p {
+      color: white;
+      font-size: .8rem;
+  }

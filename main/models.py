@@ -14,20 +14,20 @@ class Restaurant(models.Model):
     totalCollected = models.IntegerField()
     mealsDonated = models.IntegerField()
     goal = models.IntegerField()
-    owner = models.ForeignKey(User, on_delete=CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     lat = models.FloatField()
     lng = models.FloatField()
 
 class Transaction(models.Model):
-    donor = models.ForeignKey(User, on_delete=CASCADE)
-    restaurant = models.ForeignKey(Restaurant, on_delete=CASCADE)
+    donor = models.ForeignKey(User, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     mealNumber = models.IntegerField()
     dollarAmount = models.IntegerField()
     date = models.DateField("transaction date")
 
 class Facility(models.Model):
     facilityName = models.CharField(max_length=100)
-    restaurant = models.ForeignKey(Restaurant, on_delete=CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     active = models.BooleanField()
     lat = models.FloatField()
     lng = models.FloatField()
