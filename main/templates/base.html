@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,13 +11,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <title>Feed the Frontline</title>
 </head>
+
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col12">
-                <h1 class="center-align">Feed the Frontline</h1>
+    <header class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <ul>
+                    <li><a href="/" class="left brand-logo">Feed the Frontline</a></li>
+                </ul>
+                <ul class="right">
+                    <li><a href="/test">Test Page</a></li>
+                    <li><a href="#">Register</a></li>
+                    <li><a href="#">Login</a></li>
+                </ul>
             </div>
+        </nav>
+    </header>
+    <main class="container">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <div class="center-align">
+            <p>&copy;2020 Feed the Frontline | All Rights Reserved</p>
         </div>
-    </div>
+    </footer>
 </body>
+
 </html>
