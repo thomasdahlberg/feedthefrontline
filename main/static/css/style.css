@@ -21,10 +21,19 @@ body {
   main {
     flex: 1 0 auto;
   }
+img.home-ill {
+    width: 70%;
+    display: block;
+    margin: auto;
+  }
   h1 {
     font-family: 'Libre Franklin', Helvetica, Arial, sans-serif;
     font-weight: 900;
+    color: #d9753b;
   }
+p.lead {
+  font-size: 1.5rem;
+}
   footer {
     padding-top: 0;
     background-color: black;
@@ -32,4 +41,14 @@ body {
   footer p {
       color: white;
       font-size: .8rem;
+  }
+  div.justify-around {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  } 
+  a.btn-flat.btn-large {
+    background-color: #d9753b;
+    color: white;
+    font-weight: 600;
   }
