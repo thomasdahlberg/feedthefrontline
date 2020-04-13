@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Donate.</h1>
+<h3>Let's find a participating restaurant in your area.</h3>
+
+{% for restaurant in restaurants %}
+    <a href="{% url 'rest_profile' restaurant.id %}">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ restaurant.restaurantName }}</span>
+            </div>
+        </div>
+    </a>
+{% endfor %}
+
+{% endblock %}
