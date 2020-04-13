@@ -37,7 +37,7 @@ def rest_index(request):
 
 def rest_profile(request, rest_id):
     restaurant = Restaurant.objects.get(id=rest_id)
-    return render(request, 'restaurants/detail.html', { 'restuarant': restaurant })
+    return render(request, 'restaurants/detail.html', { 'restaurant': restaurant })
 
 # Restaurant Owner Views
 
@@ -71,6 +71,7 @@ class RestUpdate(UpdateView):
     model = Restaurant
     fields = [
         'restaurantName',
+        'address',
         'phone',
         'url',
         'logo',

@@ -16,8 +16,8 @@
                 <p>{{ restaurant.totalCollected }}</p>
             </div>
             <div class="card-action">
-                <!-- <a href="{% url 'RestUpdate' restaurant.id %}">Edit</a>
-                <a href="{% url 'RestDelete' restaurant.id %}">Delete</a> -->
+                <a href="{% url 'rest_update' restaurant.id %}">Edit</a>
+                <a href="{% url 'rest_delete' restaurant.id %}">Delete</a>
             </div>
         </div>
 
