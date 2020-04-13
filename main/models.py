@@ -20,7 +20,7 @@ class Restaurant(models.Model):
     lng = models.FloatField()
 
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'rest_id': self.id})
+        return reverse('rest_profile', kwargs={'rest_id': self.id})
 
 class Transaction(models.Model):
     donor = models.ForeignKey(User, on_delete=models.CASCADE)
