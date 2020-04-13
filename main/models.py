@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 
@@ -17,6 +18,9 @@ class Restaurant(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     lat = models.FloatField()
     lng = models.FloatField()
+
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'rest_id': self.id})
 
 class Transaction(models.Model):
     donor = models.ForeignKey(User, on_delete=models.CASCADE)
