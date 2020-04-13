@@ -123,5 +123,3 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/restaurants/'
 
 LOGOUT_REDIRECT_URL = '/'
-
-
