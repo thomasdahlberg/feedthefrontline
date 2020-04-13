@@ -5,6 +5,13 @@ from .models import Restaurant, Transaction, Facility
 
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+# import googlemaps
+# import time
+# from GoogleMapsAPIKey import get_my_key
+
+# API_KEY = get_my_key
+
+# gmaps = googlemaps.Client(key = API_KEY)
 
 # Create your views here.
 def home(request):
@@ -35,8 +42,8 @@ def rest_index(request):
     restaurants = Restaurant.objects.all()
     return render(request, 'restaurants/index.html', { 'restaurants' : restaurants })
 
-def rest_profile(request, rest_id):
-    restaurant = Restaurant.objects.get(id=rest_id)
+def rest_profile(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
     return render(request, 'restaurants/detail.html', { 'restaurant': restaurant })
 
 # Restaurant Owner Views
