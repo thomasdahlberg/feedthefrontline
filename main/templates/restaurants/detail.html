@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col s6">
+        <div class="card">
+            <div class="card-content">
+                <img src="{{ restaurant.logo }}" alt="restaurant logo">
+                <span class="card-title">{{ restaurant.restaurantName }}</span>
+                <p>{{ restaurant.address }}</p>
+                <p>{{ restaurant.phone }}</p>
+                <a href="{{ restaurant.url }}">{{ restaurant.url }}</a>
+                <p>{{ restaurant.aboutUs }}</p>
+                <p>{{ restaurant.mealCost }}/meal</p>
+                <p>{{ restaurant.goal }}</p>
+                <p>{{ restaurant.totalCollected }}</p>
+            </div>
+            <div class="card-action">
+                <!-- <a href="{% url 'RestUpdate' restaurant.id %}">Edit</a>
+                <a href="{% url 'RestDelete' restaurant.id %}">Delete</a> -->
+            </div>
+        </div>
+
+{% endblock %}
