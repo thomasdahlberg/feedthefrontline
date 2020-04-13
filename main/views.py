@@ -35,7 +35,6 @@ class RestCreate(CreateView):
     model = Restaurant
     fields = [
         'restaurantName',
-        'ownerName',
         'address',
         'phone',
         'url',
