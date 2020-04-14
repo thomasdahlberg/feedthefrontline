@@ -81,7 +81,8 @@ img.home-ill {
     font-size: 1rem;
   }
   span.helptext, form > ul li {
-    font-size: .75rem;
+    font-size: .82rem;
+    color: grey;
   }
   form p {
     padding-top: 1rem;
@@ -94,7 +95,14 @@ img.home-ill {
   input[type='submit']:hover, input[type='submit']:active, input[type='submit']:focus {
     background-color: #d9753b;
   }
-
+  input[type='checkbox'] {
+    margin-left: 1rem;
+    background-color: blueviolet;
+    height: 24px;
+    width: 24px;
+    opacity: 1 !important;
+    position: relative;
+  }
   #map {
     height: 500px;
     width: 500px;
