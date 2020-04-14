@@ -29,6 +29,7 @@ a.brand-logo > img {
   ************* */
 main {
   flex: 1 0 auto;
+  padding-bottom: 3rem;
 }
 h1 {
   font-family: "Libre Franklin", Helvetica, Arial, sans-serif;
