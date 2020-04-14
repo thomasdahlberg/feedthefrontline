@@ -5,16 +5,16 @@ from django.urls import reverse
 # Create your models here.
 
 class Restaurant(models.Model):
-    restaurantName = models.CharField(max_length=100)
+    restaurantName = models.CharField(max_length=100, verbose_name='restaurant Name')
     address = models.CharField(max_length=250)
     phone = models.IntegerField()
-    url = models.CharField(max_length=200)
+    url = models.URLFieldp(max_length=200, verbose_name='URL')
     logo = models.CharField(max_length=200)
-    aboutUs = models.TextField()
-    mealCost = models.IntegerField()
+    aboutUs = models.TextField(verbose_name='About Us')
+    mealCost = models.IntegerField(verbose_name='Meal Cost')
     totalCollected = models.IntegerField()
     mealsDonated = models.IntegerField()
-    goal = models.IntegerField()
+    goal = models.IntegerField(verbose_name='Weekly Meal Goal')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     lat = models.FloatField()
     lng = models.FloatField()
@@ -30,7 +30,7 @@ class Transaction(models.Model):
     date = models.DateField("transaction date")
 
 class Facility(models.Model):
-    facilityName = models.CharField(max_length=100)
+    facilityName = models.CharField(max_length=100, verbose_name='facility Name')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     active = models.BooleanField()
     lat = models.FloatField()
