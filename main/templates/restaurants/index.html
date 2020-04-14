@@ -17,7 +17,12 @@
     </div>
     <div class="col s6">
         <div id ="map"></div>
-    </div>    
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" name="places-search">
+        <input type="submit" value="Submit">
+    </form>    
 </div>
 <script>
     let map, infoWindow;

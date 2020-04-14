@@ -1,24 +1,29 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
-from .models import Restaurant, Transaction, Facility
-
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-# import googlemaps
-# import time
-# from GoogleMapsAPIKey import get_my_key
 
-# API_KEY = get_my_key
+from .models import Restaurant, Transaction, Facility
+from .forms import RestaurantForm
 
-# gmaps = googlemaps.Client(key = API_KEY)
+import googlemaps
+
+gmaps = googlemaps.Client(key = 'AIzaSyDoVTW1-BZU-gfpY86X4FRKoc6hy8Oa67I')
+
+# Google Maps/Places APIs
+# def place_search(request):
+#     search_text = request.places-search
+#     places = gmaps.find_place(search_text)
+#     return render(request, 'test.html', { 'places': places })
 
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
 
 def test(request):
-    return render(request, 'test.html')
+    rest_form = RestaurantForm()
+    return render(request, 'test.html', { 'rest_form': rest_form })
 
 # Authorization and Registration
 
