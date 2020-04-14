@@ -94,3 +94,8 @@ img.home-ill {
   input[type='submit']:hover, input[type='submit']:active, input[type='submit']:focus {
     background-color: #d9753b;
   }
+
+  #map {
+    height: 500px;
+    width: 500px;
+  }
