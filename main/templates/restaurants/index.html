@@ -2,7 +2,7 @@
 {% block content %}
 
 <h1>Donate.</h1>
-<h3>Let's find a participating restaurant in your area.</h3>
+<p class="lead">Let's find a participating restaurant in your area.</p>
 
 {% for restaurant in restaurants %}
     <a href="{% url 'rest_profile' restaurant.id %}">
