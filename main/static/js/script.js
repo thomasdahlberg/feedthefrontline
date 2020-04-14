@@ -27,15 +27,13 @@ function showSearchResults(results) {
                                         <div class="collapsible-header"><strong>${newJobsites[i].siteName}</strong></div>
                                             <div class="collapsible-body"><span><strong>${newJobsites[i].address}</strong>
                                                 <br><br>
-                                                <form action="/restaurants/" method="POST">
-                                                    <button class="btn waves-effect waves-light green" type="submit">Add Jobsite
-                                                        <i class="material-icons right">add</i>
-                                                    </button>
+                                                <div>
+                                                    <a id=${i} class="btn waves-effect waves-light green details">Add Restaurant Details</a>
                                                     <input type="hidden" name="name" value="${newJobsites[i].siteName}">
                                                     <input type="hidden" name="address" value="${newJobsites[i].address}">
                                                     <input type="hidden" name="latitude" value="${newJobsites[i].latitude}">
                                                     <input type="hidden" name="longitude" value="${newJobsites[i].longitude}">
-                                                </form>
+                                                </div>
                                             </span>
                                         </div>
                                     </li>`
@@ -59,3 +57,14 @@ $('#site-search-click').on('click', (event)=> {
         showSearchResults(data.results);
         });
 });
+
+
+document.getElementById("search-results").addEventListener("click", function(e) {
+    if(e.target && e.target.nodeName == "A") {
+        console.log(newJobsites[e.target.id].siteName);
+        $("#id_restaurantName").val(newJobsites[e.target.id].siteName);
+        $("#id_address").val(newJobsites[e.target.id].address);
+        $("#id_lat").val(newJobsites[e.target.id].latitude);
+        $("#id_lng").val(newJobsites[e.target.id].longitude);
+    }
+})
