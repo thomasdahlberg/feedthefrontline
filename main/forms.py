@@ -7,8 +7,8 @@ class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
     email = forms.EmailField(max_length=200)
-    restaurantUser = forms.BooleanField(label="Are you a restaurant?")
+    # restaurantUser = forms.BooleanField(label="Are you a restaurant?", required=False)
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'restaurantUser')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
