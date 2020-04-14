@@ -3,18 +3,24 @@
 
 <h1>Donate.</h1>
 <h3>Let's find a participating restaurant in your area.</h3>
-
-{% for restaurant in restaurants %}
-    <a href="{% url 'rest_profile' restaurant.id %}">
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title">{{ restaurant.restaurantName }}</span>
+<div class="row">
+    <div class="col s6">
+        {% for restaurant in restaurants %}
+        <a href="{% url 'rest_profile' restaurant.id %}">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">{{ restaurant.restaurantName }}</span>
+                </div>
             </div>
-        </div>
-    </a>
-    <div>
-        <div id ="map"></div>
+        </a>
+        {% endfor %}
     </div>
+    <div class="col s6">
+        <div id ="map"></div>
+    </div>    
+</div>
+
+
 
     <script>
         let map, infoWindow;
@@ -56,6 +62,5 @@
         }
       </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCG5eYD4eXZhXGcdvrns_R_rF7H-DFAIDg&callback=initMap"></script>
-{% endfor %}
 
 {% endblock %}
