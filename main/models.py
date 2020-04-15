@@ -25,7 +25,6 @@ class Restaurant(models.Model):
     address = models.CharField(max_length=250)
     phone = models.IntegerField()
     url = models.URLField(max_length=200, verbose_name='URL')
-    logo = models.CharField(max_length=200)
     aboutUs = models.TextField(verbose_name='About Us')
     mealCost = models.IntegerField(verbose_name='Meal Cost')
     totalCollected = models.IntegerField()
@@ -51,3 +50,7 @@ class Facility(models.Model):
     active = models.BooleanField()
     lat = models.FloatField()
     lng = models.FloatField()
+
+class Logo(models.Model):
+    url = models.CharField(max_length=200)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)

@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .models import Restaurant, Transaction, Facility, Profile
+from .models import Restaurant, Transaction, Facility, Profile, Logo
 
 from django.contrib.auth import login, authenticate
 
 from .forms import SignUpForm
+
+import uuid
+import boto3
+
+S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+BUCKET = 'feedthefrontline'
+
 # import googlemaps
 # import time
 # from GoogleMapsAPIKey import get_my_key
@@ -62,15 +69,26 @@ def rest_profile(request, restaurant_id):
 
 # Restaurant Owner Views
 
-def assoc_fac(request, rest_id, fac_id):
+def assoc_fac(request, restaurant_id, fac_id):
     pass
 
-def rm_fac(request, rest_id, fac_id):
+def rm_fac(request, restaurant_id, fac_id):
     pass
 
-def upload_logo(request, rest_id):
-    pass
-
+def add_logo(request, restaurant_id):
+    logo_file = request.FILES.get('logo-file', None)
+    if logo_file:
+        s3 = boto3.client('s3')
+        key= uuid.uuid4().hex[:6] + logo_file.name[logo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(logo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            logo = Logo(url=url, restaurant_id=restaurant_id)
+            logo.save()
+        except:
+            print('An error has occured uploading your file to S3')
+        return redirect('detail', restaurant_id=restaurant_id)
+    
 class RestCreate(CreateView):
     model = Restaurant
     fields = [
