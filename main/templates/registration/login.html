@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-
+{% load materializecss %}
 {% block content %}
 
 <h1>Log In</h1>
 
 <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|materializecss }}
     <input type="submit" value="login" class="btn btn-large">
     <input type="hidden" name="next" value="{{ next }}">
 </form>
