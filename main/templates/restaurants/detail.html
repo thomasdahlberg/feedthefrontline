@@ -20,5 +20,17 @@
                 <a href="{% url 'rest_delete' restaurant.id %}">Delete</a>
             </div>
         </div>
+        {% for logo in restaurant.logo_set.all %}
+            <img class="responsive-img card-panel" src="{{logo.url}}">
+        {% empty %}
+            <div class="card-panel center-align">No Logo Uploaded</div>
+        {% endfor %}
+
+        <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" class="card-panel">
+            {% csrf_token %}
+            <input type="file" name="logo-file">
+            <br><br>
+            <input type="submit" class="btn" value="Upload Logo">
+        </form>
 
 {% endblock %}
