@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Test Page</h1>
+<h1>Create Restaurant Profile</h1>
     <h6>Find My Restaurant</h6>
     <div class="row">
         <div class="col s6">
@@ -13,9 +13,9 @@
             <ul id="search-results" class="collapsible"></ul>
         </div>
         <div class="col s6">
-            <form action="{% url 'rest_create' %}" method="post">
+            <form action="{% url 'rest_create' %}" method="POST">
                 {% csrf_token %}
-                {{ rest_form.as_p }}
+                {{ form.as_p }}
                 <input type="submit" value="Create My Restaurant Profile" class="btn">
             </form>
         </div>

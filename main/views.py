@@ -1,5 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.http import JsonResponse, HttpResponse
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from .forms import RestaurantForm, SignUpForm
 
 from .models import Restaurant, Transaction, Facility, Profile, Logo
 
@@ -17,9 +21,13 @@ BUCKET = 'feedthefrontline'
 # import time
 # from GoogleMapsAPIKey import get_my_key
 
-# API_KEY = get_my_key
+# gmaps = googlemaps.Client(key = 'AIzaSyDoVTW1-BZU-gfpY86X4FRKoc6hy8Oa67I')
 
-# gmaps = googlemaps.Client(key = API_KEY)
+# Google Maps/Places APIs
+# def place_search(request):
+#     search_text = request.places-search
+#     places = gmaps.find_place(search_text)
+#     return render(request, 'test.html', { 'places': places })
 
 # Create your views here.
 def home(request):
@@ -29,7 +37,8 @@ def about(request):
     return render(request, 'about.html')
 
 def test(request):
-    return render(request, 'test.html')
+    rest_form = RestaurantForm()
+    return render(request, 'test.html', { 'rest_form': rest_form })
 
 # Authorization and Registration
 
@@ -66,6 +75,23 @@ def rest_index(request):
 def rest_profile(request, restaurant_id):
     restaurant = Restaurant.objects.get(id=restaurant_id)
     return render(request, 'restaurants/detail.html', { 'restaurant': restaurant })
+
+def rest_create(request):
+    error_message = ''
+    if request.method == 'POST':
+        print(request)
+        form = RestaurantForm(request.POST)
+        if form.is_valid():
+            print('form data full up')
+            new_restauarant = form.save(commit=False)
+            new_restauarant.owner = request.user
+            new_restauarant.save()
+            return redirect('rest_profile', restaurant_id=new_restauarant.id)
+        else:
+            error_message = 'Invalid restaurant profile - try again'
+    form = RestaurantForm()
+    context = {'form':form, 'error_message': error_message}
+    return render(request, 'restaurants/add.html', context)
 
 # Restaurant Owner Views
 

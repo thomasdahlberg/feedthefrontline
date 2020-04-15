@@ -1,6 +1,25 @@
-from django import forms
-from django.contrib.auth.models import User
+from django.forms import ModelForm
+from .models import Restaurant
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django import forms
+
+
+
+class RestaurantForm(ModelForm):
+    class Meta:
+        model = Restaurant
+        fields = [
+            'restaurantName',
+            'address',
+            'phone',
+            'url',
+            'aboutUs',
+            'mealCost',
+            'goal',
+            'lat',
+            'lng'
+            ]
 
 
 class SignUpForm(UserCreationForm):
