@@ -14,7 +14,6 @@ class RestaurantForm(ModelForm):
             'address',
             'phone',
             'url',
-            'logo',
             'aboutUs',
             'mealCost',
             'goal',

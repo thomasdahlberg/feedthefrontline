@@ -21,7 +21,7 @@ BUCKET = 'feedthefrontline'
 # import time
 # from GoogleMapsAPIKey import get_my_key
 
-gmaps = googlemaps.Client(key = 'AIzaSyDoVTW1-BZU-gfpY86X4FRKoc6hy8Oa67I')
+# gmaps = googlemaps.Client(key = 'AIzaSyDoVTW1-BZU-gfpY86X4FRKoc6hy8Oa67I')
 
 # Google Maps/Places APIs
 # def place_search(request):

@@ -48,7 +48,7 @@ class Transaction(models.Model):
 class Facility(models.Model):
     facilityName = models.CharField(max_length=100, verbose_name='facility Name')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    active = models.BooleanField()
+    active = models.BooleanField(default=True)
     lat = models.FloatField()
     lng = models.FloatField()
 
