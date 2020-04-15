@@ -4,21 +4,11 @@
 <h1>Test Page</h1>
     <h6>Find My Restaurant</h6>
     <div class="row">
-        <div class="col s6">
-            <div class="container-3">
-                <input type="text" id="site-search-data">
-                    <button type="submit" value="Search" id="site-search-click" class="waves-effect waves-light btn blue"><i class="material-icons center">search</i></button>
-                </div> 
-            </form>
-            <ul id="search-results" class="collapsible"></ul>
-        </div>
-        <div class="col s6">
-            <form action="{% url 'rest_create' %}" method="post">
-                {% csrf_token %}
-                {{ rest_form.as_p }}
-                <input type="submit" value="Create My Restaurant Profile" class="btn">
-            </form>
-        </div>
+        <form action="{% url 'places_search' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="placestext" id="placestext">
+            <input type="submit" value="Places Search">
+        </form>
     </div>
 
 {% endblock %}
