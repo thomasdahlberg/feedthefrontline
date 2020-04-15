@@ -13,12 +13,12 @@
         <ul id="search-results" class="collapsible"></ul>
         {% if restaurants %}
             {% for restaurant in restaurants %}
-            <li class="sites">
+            <li class="sites" id="{{restaurant.id}}">
                 <div class="collapsible-header"><strong>{{restaurant.name}}</strong></div>
                     <div class="collapsible-body"><span><strong>{{restaurant.formatted_address}}</strong>
                         <br><br>
                         <div>
-                            <a class="btn waves-effect waves-light green details">Add Restaurant Details</a>
+                            <a id="{{restaurant.id}}" class="btn waves-effect waves-light green details">Add Restaurant Details</a>
                             <input type="hidden" name="name" value="{{restaurant.name}}">
                             <input type="hidden" name="address" value="{{restaurant.formatted_address}}">
                             <input type="hidden" name="latitude" value="{{restaurant.geometry.location.lat}}">
