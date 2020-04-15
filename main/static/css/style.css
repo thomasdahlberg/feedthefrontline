@@ -101,36 +101,41 @@ img.home-ill {
   Form styles
   ************* */
 
-  label {
+form p, form ul {
+    font-size: .82rem !important;
+    color: grey;
+  }
+  form ul li {
+    margin-bottom: 0;
+    margin-left: 1rem;
+  }
+  .input-field > label, label > span {
     font-family: "Libre Franklin", Helvetica, Arial, sans-serif;
     font-weight: 900;
     color: black;
     font-size: 1rem;
   }
-  span.helptext, form > ul li {
-    font-size: .82rem;
-    color: grey;
-  }
-  form p {
-    padding-top: 1rem;
-  }
+
   input[type='submit'] {
     background-color: black;
       color: white;
       font-weight: 600;
+      margin-top: 2rem;
+  }
+  [type="checkbox"]:checked+span:not(.lever):before {
+    border-right-color: black !important;
+    border-bottom-color: black !important;
   }
   input[type='submit']:hover, input[type='submit']:active, input[type='submit']:focus {
     background-color: #d9753b;
   }
-  /* input[type='checkbox'] {
-    margin-left: 1rem;
-    background-color: blueviolet;
-    height: 24px;
-    width: 24px;
-    opacity: 1 !important;
-    position: relative;
-    cursor: pointer !important;
-  } */
+input[type='checkbox'] {
+  color: black !important;
+}
+input.invalid[type=text]:not(.browser-default) {
+  border-bottom-color: #d9753b !important;
+  box-shadow: 0 1px 0 0 #d9753b !important;
+}
   #map {
     height: 500px;
     width: 500px;
