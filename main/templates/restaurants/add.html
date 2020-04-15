@@ -13,7 +13,7 @@
             <ul id="search-results" class="collapsible"></ul>
         </div>
         <div class="col s6">
-            <form action="{% url 'rest_create' %}" method="post">
+            <form action="{% url 'rest_create' %}" method="POST">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit" value="Create My Restaurant Profile" class="btn">
