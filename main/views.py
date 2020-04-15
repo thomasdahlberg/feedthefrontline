@@ -25,8 +25,8 @@ BUCKET = 'feedthefrontline'
 def places_search(request):
     gmaps = googlemaps.Client(key=API_KEY)
     search_text = request.POST.__getitem__('placestext')
-    result = gmaps.find_place(input=search_text, input_type='textquery')
-    print(result)
+    result = gmaps.places(query=search_text)
+    print(result['results'])
     
     return redirect('test')
 
