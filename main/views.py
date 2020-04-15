@@ -14,20 +14,21 @@ from .forms import SignUpForm
 import uuid
 import boto3
 
+import googlemaps
+# from GoogleMapsAPIKey import get_my_key
+
+API_KEY = 'AIzaSyCSoVHw83uV_E-uSqxMW7nTxuT4OQCL2m4'
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'feedthefrontline'
 
-# import googlemaps
-# import time
-# from GoogleMapsAPIKey import get_my_key
 
-# gmaps = googlemaps.Client(key = 'AIzaSyDoVTW1-BZU-gfpY86X4FRKoc6hy8Oa67I')
-
-# Google Maps/Places APIs
-# def place_search(request):
-#     search_text = request.places-search
-#     places = gmaps.find_place(search_text)
-#     return render(request, 'test.html', { 'places': places })
+def places_search(request):
+    gmaps = googlemaps.Client(key=API_KEY)
+    search_text = request.POST.__getitem__('placestext')
+    result = gmaps.find_place(input=search_text, input_type='textquery')
+    print(result)
+    
+    return redirect('test')
 
 # Create your views here.
 def home(request):
@@ -37,8 +38,7 @@ def about(request):
     return render(request, 'about.html')
 
 def test(request):
-    rest_form = RestaurantForm()
-    return render(request, 'test.html', { 'rest_form': rest_form })
+    return render(request, 'test.html')
 
 # Authorization and Registration
 
