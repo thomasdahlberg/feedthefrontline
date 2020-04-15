@@ -1,14 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Test Page</h1>
-    <h6>Find My Restaurant</h6>
-    <div class="row">
-        <form action="{% url 'places_search' %}" method="post">
+<h1>Create Restaurant Profile</h1>
+<h6>Find My Restaurant</h6>
+<div class="row">
+    <div class="col s6">
+        <form action="{% url 'test' %}" method="post">
             {% csrf_token %}
             <input type="text" name="placestext" id="placestext">
             <input type="submit" value="Places Search">
         </form>
+        <ul id="search-results" class="collapsible"></ul>
+        {% if restaurants %}
+            {% for restaurant in restaurants %}
+            <li class="sites" id="{{restaurant.id}}">
+                <div class="collapsible-header"><strong>{{restaurant.name}}</strong></div>
+                    <div class="collapsible-body"><span><strong>{{restaurant.formatted_address}}</strong>
+                        <br><br>
+                        <div>
+                            <a id="{{restaurant.id}}" class="btn waves-effect waves-light green details">Add Restaurant Details</a>
+                            <input type="hidden" name="name" value="{{restaurant.name}}">
+                            <input type="hidden" name="address" value="{{restaurant.formatted_address}}">
+                            <input type="hidden" name="latitude" value="{{restaurant.geometry.location.lat}}">
+                            <input type="hidden" name="longitude" value="{{restaurant.geometry.location.lng}}">
+                        </div>
+                    </span>
+                </div>
+            </li>
+            {% endfor %}
+        {% endif %}
     </div>
-
+    <div class="col s6">
+        <form action="{% url 'rest_create' %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Create My Restaurant Profile" class="btn">
+        </form>
+    </div>
+</div>
 {% endblock %}

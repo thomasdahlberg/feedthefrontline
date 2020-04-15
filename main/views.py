@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth import login
@@ -22,13 +22,13 @@ S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'feedthefrontline'
 
 
-def places_search(request):
-    gmaps = googlemaps.Client(key=API_KEY)
-    search_text = request.POST.__getitem__('placestext')
-    result = gmaps.find_place(input=search_text, input_type='textquery')
-    print(result)
+# def places_search(request):
+#     gmaps = googlemaps.Client(key=API_KEY)
+#     search_text = request.POST.__getitem__('placestext')
+#     result = gmaps.places(query=search_text)
+#     restaurants = result['results']
     
-    return redirect('test')
+#     return render(request, 'test.html', {'restaurants': restaurants}) 
 
 # Create your views here.
 def home(request):
@@ -38,7 +38,28 @@ def about(request):
     return render(request, 'about.html')
 
 def test(request):
-    return render(request, 'test.html')
+    error_message = ''
+    if request.method == 'POST':
+        if request.POST.__getitem__('placestext'):
+            gmaps = googlemaps.Client(key=API_KEY)
+            search_text = request.POST.__getitem__('placestext')
+            result = gmaps.places(query=search_text)
+            restaurants = result['results']
+            form = RestaurantForm()
+            context = {'form':form, 'error_message': error_message, 'restaurants': restaurants}
+            return render(request, 'test.html', context)
+        else:
+            form = RestaurantForm(request.POST)
+            if form.is_valid():
+                new_restauarant = form.save(commit=False)
+                new_restauarant.owner = request.user
+                new_restauarant.save()
+                return redirect('rest_profile', restaurant_id=new_restauarant.id)
+            else:
+                error_message = 'Invalid restaurant profile - try again'
+    form = RestaurantForm()
+    context = {'form':form, 'error_message': error_message}
+    return render(request, 'test.html', context)
 
 # Authorization and Registration
 
