@@ -36,10 +36,12 @@ def signup(request):
             user.profile.first_name = form.cleaned_data.get('first_name')
             user.profile.last_name = form.cleaned_data.get('last_name')
             user.profile.email = form.cleaned_data.get('email')
+            user.profile.restaurantUser = form.cleaned_data.get('restaurantUser')
             user.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
+            print(user.profile.restaurantUser)
             login(request, user)
             return redirect('home')
         else:
@@ -48,7 +50,7 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
-# Restuarant Views (Visitor Visible)
+# Restarant Views (Visitor Visible)
 
 def rest_index(request):
     restaurants = Restaurant.objects.all()
