@@ -122,14 +122,15 @@ img.home-ill {
   input[type='submit']:hover, input[type='submit']:active, input[type='submit']:focus {
     background-color: #d9753b;
   }
-  input[type='checkbox'] {
+  /* input[type='checkbox'] {
     margin-left: 1rem;
     background-color: blueviolet;
     height: 24px;
     width: 24px;
     opacity: 1 !important;
     position: relative;
-  }
+    cursor: pointer !important;
+  } */
   #map {
     height: 500px;
     width: 500px;
