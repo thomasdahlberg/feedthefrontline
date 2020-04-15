@@ -3,11 +3,16 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-
-from .models import Restaurant, Transaction, Facility
-from .forms import RestaurantForm
+from .forms import RestaurantForm, SignUpForm
 
 import googlemaps
+from .models import Restaurant, Transaction, Facility, Profile
+
+from django.contrib.auth import login, authenticate
+
+# import googlemaps
+# import time
+# from GoogleMapsAPIKey import get_my_key
 
 gmaps = googlemaps.Client(key = 'AIzaSyDoVTW1-BZU-gfpY86X4FRKoc6hy8Oa67I')
 
@@ -20,6 +25,9 @@ gmaps = googlemaps.Client(key = 'AIzaSyDoVTW1-BZU-gfpY86X4FRKoc6hy8Oa67I')
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
+    
+def about(request):
+    return render(request, 'about.html')
 
 def test(request):
     rest_form = RestaurantForm()
@@ -30,14 +38,22 @@ def test(request):
 def signup(request):
     error_message = ''
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.refresh_from_db()
+            user.profile.first_name = form.cleaned_data.get('first_name')
+            user.profile.last_name = form.cleaned_data.get('last_name')
+            user.profile.email = form.cleaned_data.get('email')
+            user.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('index')
+            return redirect('home')
         else:
             error_message = 'Invalid sign up - try again'
-    form = UserCreationForm()
+    form = SignUpForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 

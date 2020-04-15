@@ -13,6 +13,9 @@ body {
 nav {
   background-color: #d9753b;
 }
+nav ul li {
+  list-style-type: none !important;
+}
 .nav-wrapper {
   margin: 0 2rem;
 }
@@ -31,15 +34,39 @@ main {
   flex: 1 0 auto;
   padding-bottom: 3rem;
 }
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
 h1 {
   font-family: "Libre Franklin", Helvetica, Arial, sans-serif;
   font-weight: 900;
   color: #d9753b;
 }
+h2 {
+  font-size: 2.5rem !important;
+  font-family: "Libre Franklin", Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  color: #d9753b;
+}
+h3 {
+  font-size: 2rem !important;
+}
+strong {
+  font-weight: 700;
+}
 p.lead {
   font-size: 1.5rem;
 }
-
+ul > li {
+  list-style-type: disc !important;
+}
+ul.inset {
+  margin-left: 1.5rem;
+}
+li {
+  margin-bottom: 10px;
+}
 footer {
   padding-top: 0;
   background-color: black;
@@ -81,7 +108,8 @@ img.home-ill {
     font-size: 1rem;
   }
   span.helptext, form > ul li {
-    font-size: .75rem;
+    font-size: .82rem;
+    color: grey;
   }
   form p {
     padding-top: 1rem;
@@ -94,7 +122,14 @@ img.home-ill {
   input[type='submit']:hover, input[type='submit']:active, input[type='submit']:focus {
     background-color: #d9753b;
   }
-
+  input[type='checkbox'] {
+    margin-left: 1rem;
+    background-color: blueviolet;
+    height: 24px;
+    width: 24px;
+    opacity: 1 !important;
+    position: relative;
+  }
   #map {
     height: 500px;
     width: 500px;
