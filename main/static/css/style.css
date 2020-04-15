@@ -61,7 +61,7 @@ p.lead {
 ul > li {
   list-style-type: disc !important;
 }
-li > ul {
+ul.inset {
   margin-left: 1.5rem;
 }
 li {
