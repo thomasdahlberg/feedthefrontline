@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load materializecss %}
 {% block content %}
 <h1>Create Restaurant Profile</h1>
     <h6>Find My Restaurant</h6>
@@ -15,7 +15,7 @@
         <div class="col s6">
             <form action="{% url 'rest_create' %}" method="POST">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form|materializecss }}
                 <input type="submit" value="Create My Restaurant Profile" class="btn">
             </form>
         </div>
