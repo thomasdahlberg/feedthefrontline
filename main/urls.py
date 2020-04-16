@@ -11,7 +11,7 @@ urlpatterns = [
     path('restaurants/<int:pk>/delete', views.RestDelete.as_view(), name='rest_delete'),
     path('restaurants/<int:rest_id>/assoc_fac/<int:fac_id>/', views.assoc_fac, name='assoc_fac'),
     path('restaurants/<int:rest_id>/rm_fac/<int:fac_id>', views.rm_fac, name='rm_fac'),
-    path('test/', views.test, name="test"),
+    # path('test/', views.test, name="test"),
     path('accounts/signup/', views.signup, name='signup'),
     path('restaurants/<int:restaurant_id>/add_logo/', views.add_logo, name='add_logo'),
 ]
