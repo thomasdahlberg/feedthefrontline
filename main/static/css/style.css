@@ -96,7 +96,25 @@ img.home-ill {
   display: block;
   margin: auto;
 }
-
+/* ***********
+  Restaurant Profile page styles
+  ************* */
+div#restProfile h1 {
+  font-size: 2.5rem;
+}
+div#restProfile h2 {
+  font-size: 2rem !important;
+}
+div#restProfile h3 {
+  font-size: 1.7rem !important;
+  font-family: "Libre Franklin", Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  color: black;
+}
+img#logo {
+  max-width: 350px;
+  margin-top: 2rem;
+}
 /* ***********
   Form styles
   ************* */
