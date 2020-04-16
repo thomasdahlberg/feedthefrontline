@@ -106,8 +106,9 @@ def rest_create(request):
 
 # Restaurant Owner Views
 
-def assoc_fac(request, restaurant_id, fac_id):
-    pass
+def assoc_fac(request, restaurant_id):
+    return redirect('rest_profile', restaurant_id=restaurant_id)
+
 
 def rm_fac(request, restaurant_id, fac_id):
     pass

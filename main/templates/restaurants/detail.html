@@ -56,7 +56,7 @@
     <div class="row">
         <div class="col12">
             <form action="{% url 'rest_profile' restaurant.id %}" method="post" class="container-3">
-                <h6>Link a Facility</h6>
+                <h6>Search for a Facility</h6>
                 {% csrf_token %}
                 <input type="text" name="placestext" id="placestext">
                 <input type="hidden" name="router" value="1">
@@ -72,11 +72,14 @@
                         <div class="collapsible-body"><span>
                             <div>
                                 <div><p>{{facility.formatted_address}}</p></div>
-                                <a id="{{facility.id}}" class="btn waves-effect waves-light green details">Link Facility</a>
-                                <input type="hidden" name="name" value="{{facility.name}}">
-                                <input type="hidden" name="address" value="{{facility.formatted_address}}">
-                                <input type="hidden" name="latitude" value="{{facility.geometry.location.lat}}">
-                                <input type="hidden" name="longitude" value="{{facility.geometry.location.lng}}">
+                                <form action="{% url 'assoc_fac' restaurant.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" id="{{facility.id}}" class="btn waves-effect waves-light green details">Link Facility</button>
+                                    <input type="hidden" name="name" value="{{facility.name}}">
+                                    <input type="hidden" name="address" value="{{facility.formatted_address}}">
+                                    <input type="hidden" name="latitude" value="{{facility.geometry.location.lat}}">
+                                    <input type="hidden" name="longitude" value="{{facility.geometry.location.lng}}">
+                                </form>
                             </div>
                         </span>
                     </div>
