@@ -25,6 +25,12 @@
                 <a href="{{ restaurant.url }}">{{ restaurant.url }}</a></p>
             <h2>About us:</h2>
             <p>{{ restaurant.aboutUs }}</p>
+            <h3>We provide meals to:</h3>
+            <ul>
+                {% for rest_fac in rest_facs %}
+                <li>{{ rest_fac.facilityName }}</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
     <div class="row">
