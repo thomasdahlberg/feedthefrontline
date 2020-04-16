@@ -25,12 +25,23 @@
                 <a href="{{ restaurant.url }}">{{ restaurant.url }}</a></p>
             <h2>About us:</h2>
             <p>{{ restaurant.aboutUs }}</p>
+            {% if rest_facs %}
             <h3>We provide meals to:</h3>
             <ul>
                 {% for rest_fac in rest_facs %}
-                <li>{{ rest_fac.facilityName }}</li>
+                <li>
+                    <div class=flex>
+                        <div>{{ rest_fac.facilityName }}</div>
+                        <form action="{% url 'rm_fac' restaurant.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="facility_id" value="{{ rest_fac.id }}">
+                            <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
+                        </form>
+                    </div>
+                </li>
                 {% endfor %}
             </ul>
+            {% endif %}
         </div>
     </div>
     <div class="row">

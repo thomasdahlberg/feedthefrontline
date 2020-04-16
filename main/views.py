@@ -64,11 +64,10 @@ def rest_index(request):
     return render(request, 'restaurants/index.html', { 'restaurants' : restaurants })
 
 def rest_profile(request, restaurant_id):
-    
     error_message = ''
     restaurant = Restaurant.objects.get(id=restaurant_id)
     rest_facs = restaurant.facility_set.all()
-    print(rest_facs)
+    print(rest_facs.values('id'))
     if request.method == 'POST':
         if request.POST['router'] == "1":
             print(request)
@@ -110,18 +109,22 @@ def rest_create(request):
 # Restaurant Owner Views
 
 def assoc_fac(request, restaurant_id):
-    
     print(request.POST)
     if request.POST['name']:
         facility = Facility(facilityName=request.POST['name'], restaurant_id=restaurant_id, active=True, lat=request.POST['latitude'], lng=request.POST['longitude'])
         facility.save()
+        print(facility.id)
         return redirect('rest_profile', restaurant_id=restaurant_id)
     else:
         error_message = 'Invalid restaurant profile - try again'
 
 
-def rm_fac(request, restaurant_id, fac_id):
-    pass
+def rm_fac(request, restaurant_id):
+    instance = Facility.objects.get(id=request.POST['facility_id'])
+    print(instance)
+    instance.delete()
+    return redirect('rest_profile', restaurant_id=restaurant_id)
+
 
 def add_logo(request, restaurant_id):
     logo_file = request.FILES.get('logo-file', None)
