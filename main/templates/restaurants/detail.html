@@ -1,29 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="row">
-    <div class="col s6">
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title">{{ restaurant.restaurantName }}</span>
-                <p>{{ restaurant.address }}</p>
-                <p>{{ restaurant.phone }}</p>
-                <a href="{{ restaurant.url }}">{{ restaurant.url }}</a>
-                <p>{{ restaurant.aboutUs }}</p>
-                <p>{{ restaurant.mealCost }}/meal</p>
-                <p>{{ restaurant.goal }}</p>
-                <p>{{ restaurant.totalCollected }}</p>
-            </div>
-            <div class="card-action">
-                <a href="{% url 'rest_update' restaurant.id %}">Edit</a>
-                <a href="{% url 'rest_delete' restaurant.id %}">Delete</a>
-            </div>
+<div id="restProfile">
+    <div class="row">
+        <div class="col12">
+            {% for logo in restaurant.logo_set.all %}
+            <img class="responsive-img" src="{{logo.url}}" id="logo">
+            {% empty %}
+            <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post"
+                class="card-panel">
+                {% csrf_token %}
+                <input type="file" name="logo-file">
+                <br><br>
+                <input type="submit" class="btn" value="Upload Logo">
+            </form>
+            {% endfor %}
         </div>
-        {% for logo in restaurant.logo_set.all %}
-            <img class="responsive-img card-panel" src="{{logo.url}}">
-        {% empty %}
-            <div class="card-panel center-align">No Logo Uploaded</div>
-        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col s12 l8">
+            <h1>{{ restaurant.restaurantName }}</h1>
+            <p>{{ restaurant.address }}<br />
+                <strong>Phone: </strong>{{ restaurant.phone }}<br />
+                <a href="{{ restaurant.url }}">{{ restaurant.url }}</a></p>
+            <h2>About us:</h2>
+            <p>{{ restaurant.aboutUs }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col12">
+            <h3>Cost: ${{ restaurant.mealCost }}/meal</h3>
+            <p class="red-text">Form here to select how many meals they want to donate.</p>
+            <p class="lead">Help us reach our weekly goal of {{ restaurant.goal }} meals!</p>
+            <p>Meals ordered so far this week: {{ restaurant.totalCollected }}</p>
+        </div>
+    </div>
+    <div>
+        <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit</a>
+        <a href="{% url 'rest_delete' restaurant.id %}" class="btn btn-large btn-flat">Delete</a>
+    </div>
+</div>
 
         <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" class="card-panel">
             {% csrf_token %}

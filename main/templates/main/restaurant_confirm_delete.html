@@ -6,6 +6,7 @@
 <h4>Are you sure you want to delete {{ object.restaurantName }}?</h4>
 
 <form action="" method="post">
+    {% csrf_token %}
     <input type="submit" value="Yes - Delete!" class="btn">
     <a href="{% url 'rest_profile' restaurant.id %}">Cancel</a>
 </form>
