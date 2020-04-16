@@ -45,8 +45,12 @@ def signup(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             print(user.profile.restaurantUser)
-            login(request, user)
-            return redirect('home')
+            if user.profile.restaurantUser:
+                login(request, user)
+                return redirect('rest_create')
+            else:
+                login(request, user)
+                return redirect('rest_index')
         else:
             error_message = 'Invalid sign up - try again'
     form = SignUpForm()
@@ -136,7 +140,6 @@ class RestUpdate(UpdateView):
         'address',
         'phone',
         'url',
-        'logo',
         'aboutUs',
         'mealCost',
         'goal',
