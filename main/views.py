@@ -110,7 +110,7 @@ def add_logo(request, restaurant_id):
             logo.save()
         except:
             print('An error has occured uploading your file to S3')
-        return redirect('detail', restaurant_id=restaurant_id)
+        return redirect('rest_profile', restaurant_id=restaurant_id)
     
 class RestCreate(CreateView):
     model = Restaurant
