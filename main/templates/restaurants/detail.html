@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col s12 l8">
+        <div class="cols12 l8">
             <h1>{{ restaurant.restaurantName }}</h1>
             <p>{{ restaurant.address }}<br />
                 <strong>Phone: </strong>{{ restaurant.phone }}<br />
@@ -35,49 +35,57 @@
             <p>Meals ordered so far this week: {{ restaurant.totalCollected }}</p>
         </div>
     </div>
-    <div>
-        <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit</a>
-        <a href="{% url 'rest_delete' restaurant.id %}" class="btn btn-large btn-flat">Delete</a>
+    <div class=row>
+        <div class="col12">
+            <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit</a>
+            <a href="{% url 'rest_delete' restaurant.id %}" class="btn btn-large btn-flat">Delete</a>
+        </div>    
     </div>
 </div>
-
-        <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" class="card-panel">
-            {% csrf_token %}
-            <input type="file" name="logo-file">
-            <br><br>
-            <input type="submit" class="btn" value="Upload Logo">
-        </form>
+<div class="restTools">
+    <div class="row">
+        <div class="col12">
+            <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" class="card-panel">
+                {% csrf_token %}
+                <input type="file" name="logo-file">
+                <br><br>
+                <input type="submit" class="btn" value="Upload Logo">
+            </form>
+        </div>
     </div>
-    <div class="col s6">
-        <form action="{% url 'assoc_fac' restaurant.id %}" method="post">
-            {% csrf_token %}
-            <input type="text" name="placestext" id="placestext">
-            <input type="hidden" name="router" value="1">
-            <input type="submit" value="Facility Search">
-        </form>
-        <ul id="search-results" class="collapsible"></ul>
-        {% if facilities %}
-            {% for facility in facilities %}
-            <li class="sites" id="{{facility.id}}">
-                <div class="collapsible-header"><strong>{{facility.name}}</strong></div>
-                    <div class="collapsible-body"><span><strong>{{facility.formatted_address}}</strong>
-                        <br><br>
-                        <form action="{% url 'assoc_fac' restaurant.id%}">
-                            {% csrf_token %}
-                            <button id="{{facility.id}}" class="btn waves-effect waves-light green details">Add Facility</button>
-                            <input type="hidden" name="name" value="{{facility.name}}">
-                            <input type="hidden" name="address" value="{{facility.formatted_address}}">
-                            <input type="hidden" name="latitude" value="{{facility.geometry.location.lat}}">
-                            <input type="hidden" name="longitude" value="{{facility.geometry.location.lng}}">
-                            <input type="hidden" name="router" value="2">
-                        </form>
-                    </span>
-                </div>
-            </li>
-            {% endfor %}
-        {% endif %}
+    <div class="row">
+        <div class="col12">
+            <form action="{% url 'rest_profile' restaurant.id %}" method="post" class="container-3">
+                <h6>Link a Facility</h6>
+                {% csrf_token %}
+                <input type="text" name="placestext" id="placestext">
+                <input type="hidden" name="router" value="1">
+                <input type="submit" value="Facility Search" class="btn">
+            </form>
+            <ul id="search-results" class="collapsible">
+            {% if facilities %}
+                {% for facility in facilities %}
+                <li class="sites" id="{{facility.id}}">
+                    <div class="collapsible-header">
+                        <div><p><strong>{{facility.name}}</strong></p></div>
+                    </div>
+                        <div class="collapsible-body"><span>
+                            <div>
+                                <div><p>{{facility.formatted_address}}</p></div>
+                                <a id="{{facility.id}}" class="btn waves-effect waves-light green details">Link Facility</a>
+                                <input type="hidden" name="name" value="{{facility.name}}">
+                                <input type="hidden" name="address" value="{{facility.formatted_address}}">
+                                <input type="hidden" name="latitude" value="{{facility.geometry.location.lat}}">
+                                <input type="hidden" name="longitude" value="{{facility.geometry.location.lng}}">
+                            </div>
+                        </span>
+                    </div>
+                </li>
+                {% endfor %}
+            {% endif %}
+            </ul>
+        </div>
     </div>
-
-
+</div>
 
 {% endblock %}

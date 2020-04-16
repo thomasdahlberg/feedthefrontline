@@ -64,7 +64,17 @@ def rest_index(request):
     return render(request, 'restaurants/index.html', { 'restaurants' : restaurants })
 
 def rest_profile(request, restaurant_id):
+    error_message = ''
     restaurant = Restaurant.objects.get(id=restaurant_id)
+    if request.method == 'POST':
+        if request.POST['router'] == "1":
+            print(request)
+            gmaps = googlemaps.Client(key=API_KEY)
+            search_text = request.POST['placestext']
+            result = gmaps.places(query=search_text)
+            facilities = result['results']
+            context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities}
+            return render(request, 'restaurants/detail.html', context)
     return render(request, 'restaurants/detail.html', { 'restaurant': restaurant })
 
 def rest_create(request):
