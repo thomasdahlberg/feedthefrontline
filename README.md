@@ -8,7 +8,7 @@ Adrienne Grace, Thomas Dahlberg & Daniel Usem
 ![Home Screen](./main/static/images/feed-the-frontline-comp.jpg)
 
 ## Technologies Used
-HTML5, CSS3, PostgreSQL, Python, Django, Heroku, Materialize, Google Places API
+HTML5, CSS3, PostgreSQL, Python, Django, jQuery, Heroku, Materialize, Google Places API
 
 ## Pitch Deck
 https://docs.google.com/presentation/d/1u70reJtMoxyudcNyyvaGKvSydfR--OblwXz4aEa79XA/edit#slide=id.g730cce87bd_0_260
