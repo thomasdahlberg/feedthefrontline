@@ -60,8 +60,12 @@ def signup(request):
 # Restarant Views (Visitor Visible)
 
 def rest_index(request):
-    restaurants = Restaurant.objects.all()
-    return render(request, 'restaurants/index.html', { 'restaurants' : restaurants })
+    restaurants = Restaurant.objects.all().order_by('-id')
+    facilities = Facility.objects.all().order_by('-id')
+    rest_max = restaurants[0].id
+    fac_max = facilities[0].id
+    context = { 'restaurants': restaurants, 'facilities': facilities, 'rest_max': rest_max, "fac_max": fac_max }
+    return render(request, 'restaurants/index.html', context)
 
 def rest_profile(request, restaurant_id):
     error_message = ''
@@ -140,22 +144,6 @@ def add_logo(request, restaurant_id):
             print('An error has occured uploading your file to S3')
         return redirect('rest_profile', restaurant_id=restaurant_id)
     
-class RestCreate(CreateView):
-    model = Restaurant
-    fields = [
-        'restaurantName',
-        'address',
-        'phone',
-        'url',
-        'logo',
-        'aboutUs',
-        'mealCost',
-        'goal',
-    ]
-
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super().form_valid(form)
 
 class RestUpdate(UpdateView):
     model = Restaurant
