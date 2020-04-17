@@ -1,67 +1,111 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="row">
-    <div class="col s6">
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title">{{ restaurant.restaurantName }}</span>
-                <p>{{ restaurant.address }}</p>
-                <p>{{ restaurant.phone }}</p>
-                <a href="{{ restaurant.url }}">{{ restaurant.url }}</a>
-                <p>{{ restaurant.aboutUs }}</p>
-                <p>{{ restaurant.mealCost }}/meal</p>
-                <p>{{ restaurant.goal }}</p>
-                <p>{{ restaurant.totalCollected }}</p>
-            </div>
-            <div class="card-action">
-                <a href="{% url 'rest_update' restaurant.id %}">Edit</a>
-                <a href="{% url 'rest_delete' restaurant.id %}">Delete</a>
-            </div>
-        </div>
-        {% for logo in restaurant.logo_set.all %}
-            <img class="responsive-img card-panel" src="{{logo.url}}">
-        {% empty %}
-            <div class="card-panel center-align">No Logo Uploaded</div>
-        {% endfor %}
-
-        <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" class="card-panel">
-            {% csrf_token %}
-            <input type="file" name="logo-file">
-            <br><br>
-            <input type="submit" class="btn" value="Upload Logo">
-        </form>
-    </div>
-    <div class="col s6">
-        <form action="{% url 'assoc_fac' restaurant.id %}" method="post">
-            {% csrf_token %}
-            <input type="text" name="placestext" id="placestext">
-            <input type="hidden" name="router" value="1">
-            <input type="submit" value="Facility Search">
-        </form>
-        <ul id="search-results" class="collapsible"></ul>
-        {% if facilities %}
-            {% for facility in facilities %}
-            <li class="sites" id="{{facility.id}}">
-                <div class="collapsible-header"><strong>{{facility.name}}</strong></div>
-                    <div class="collapsible-body"><span><strong>{{facility.formatted_address}}</strong>
-                        <br><br>
-                        <form action="{% url 'assoc_fac' restaurant.id%}">
-                            {% csrf_token %}
-                            <button id="{{facility.id}}" class="btn waves-effect waves-light green details">Add Facility</button>
-                            <input type="hidden" name="name" value="{{facility.name}}">
-                            <input type="hidden" name="address" value="{{facility.formatted_address}}">
-                            <input type="hidden" name="latitude" value="{{facility.geometry.location.lat}}">
-                            <input type="hidden" name="longitude" value="{{facility.geometry.location.lng}}">
-                            <input type="hidden" name="router" value="2">
-                        </form>
-                    </span>
-                </div>
-            </li>
+<div id="restProfile">
+    <div class="row">
+        <div class="col12">
+            {% for logo in restaurant.logo_set.all %}
+            <img class="responsive-img" src="{{logo.url}}" id="logo">
+            {% empty %}
+            <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post"
+                class="card-panel">
+                {% csrf_token %}
+                <input type="file" name="logo-file">
+                <br><br>
+                <input type="submit" class="btn" value="Upload Logo">
+            </form>
             {% endfor %}
-        {% endif %}
+        </div>
     </div>
-
-
+    <div class="row">
+        <div class="cols12 l8">
+            <h1>{{ restaurant.restaurantName }}</h1>
+            <p>{{ restaurant.address }}<br />
+                <strong>Phone: </strong>{{ restaurant.phone }}<br />
+                <a href="{{ restaurant.url }}">{{ restaurant.url }}</a></p>
+            <h2>About us:</h2>
+            <p>{{ restaurant.aboutUs }}</p>
+            {% if rest_facs %}
+            <h3>We provide meals to:</h3>
+            <ul>
+                {% for rest_fac in rest_facs %}
+                <li>
+                    <div class=flex>
+                        <div>{{ rest_fac.facilityName }}</div>
+                        <form action="{% url 'rm_fac' restaurant.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="facility_id" value="{{ rest_fac.id }}">
+                            <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
+                        </form>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col12">
+            <h3>Cost: ${{ restaurant.mealCost }}/meal</h3>
+            <p class="red-text">Form here to select how many meals they want to donate.</p>
+            <p class="lead">Help us reach our weekly goal of {{ restaurant.goal }} meals!</p>
+            <p>Meals ordered so far this week: {{ restaurant.totalCollected }}</p>
+        </div>
+    </div>
+    <div class=row>
+        <div class="col12">
+            <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit</a>
+            <a href="{% url 'rest_delete' restaurant.id %}" class="btn btn-large btn-flat">Delete</a>
+        </div>    
+    </div>
+</div>
+<div class="restTools">
+    <div class="row">
+        <div class="col12">
+            <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" class="card-panel">
+                {% csrf_token %}
+                <input type="file" name="logo-file">
+                <br><br>
+                <input type="submit" class="btn" value="Upload Logo">
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col12">
+            <form action="{% url 'rest_profile' restaurant.id %}" method="post" class="container-3">
+                <h6>Search for a Facility</h6>
+                {% csrf_token %}
+                <input type="text" name="placestext" id="placestext">
+                <input type="hidden" name="router" value="1">
+                <input type="submit" value="Facility Search" class="btn">
+            </form>
+            <ul id="search-results" class="collapsible">
+            {% if facilities %}
+                {% for facility in facilities %}
+                <li class="sites" id="{{facility.id}}">
+                    <div class="collapsible-header">
+                        <div><p><strong>{{facility.name}}</strong></p></div>
+                    </div>
+                        <div class="collapsible-body"><span>
+                            <div>
+                                <div><p>{{facility.formatted_address}}</p></div>
+                                <form action="{% url 'assoc_fac' restaurant.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" id="{{facility.id}}" class="btn waves-effect waves-light green details">Link Facility</button>
+                                    <input type="hidden" name="name" value="{{facility.name}}">
+                                    <input type="hidden" name="address" value="{{facility.formatted_address}}">
+                                    <input type="hidden" name="latitude" value="{{facility.geometry.location.lat}}">
+                                    <input type="hidden" name="longitude" value="{{facility.geometry.location.lng}}">
+                                </form>
+                            </div>
+                        </span>
+                    </div>
+                </li>
+                {% endfor %}
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

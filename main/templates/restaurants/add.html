@@ -1,24 +1,27 @@
 {% extends 'base.html' %}
-
+{% load materializecss %}
 {% block content %}
 <h1>Create Restaurant Profile</h1>
-<h6>Find My Restaurant</h6>
 <div class="row">
     <div class="col s6">
-        <form action="{% url 'rest_create' %}" method="post">
+        <form action="{% url 'rest_create' %}" method="post" class="container-3">
+            <h6>Find My Restaurant</h6>
+
             {% csrf_token %}
             <input type="text" name="placestext" id="placestext">
             <input type="hidden" name="router" value="1">
-            <input type="submit" value="Places Search">
+            <input type="submit" value="Places Search" class="btn">
         </form>
-        <ul id="search-results" class="collapsible"></ul>
+        <ul id="search-results" class="collapsible">
         {% if restaurants %}
             {% for restaurant in restaurants %}
             <li class="sites" id="{{restaurant.id}}">
-                <div class="collapsible-header"><strong>{{restaurant.name}}</strong></div>
-                    <div class="collapsible-body"><span><strong>{{restaurant.formatted_address}}</strong>
-                        <br><br>
+                <div class="collapsible-header">
+                    <div><p><strong>{{restaurant.name}}</strong></p></div>
+                </div>
+                    <div class="collapsible-body"><span>
                         <div>
+                            <div><p>{{restaurant.formatted_address}}</p></div>
                             <a id="{{restaurant.id}}" class="btn waves-effect waves-light green details">Add Restaurant Details</a>
                             <input type="hidden" name="name" value="{{restaurant.name}}">
                             <input type="hidden" name="address" value="{{restaurant.formatted_address}}">
@@ -30,6 +33,7 @@
             </li>
             {% endfor %}
         {% endif %}
+        </ul>
     </div>
     <div class="col s6">
         <form action="{% url 'rest_create' %}" method="POST">
@@ -39,6 +43,6 @@
             <input type="submit" value="Create My Restaurant Profile" class="btn">
         </form>
     </div>
-</div>
+</div>        
 
 {% endblock %}

@@ -88,6 +88,16 @@ a.btn-flat.btn-large {
 a.btn-flat.btn-large:hover, a.btn-flat.btn-large:active, a.btn-flat.btn-large:focus {
   background-color: black;
 }
+
+li.active > div {
+  background-color: cornsilk;
+  color: #1976d2;
+}
+
+.delete {
+  background-color: #d91818;
+}
+
 /* ***********
   Home page styles
   ************* */
@@ -96,7 +106,25 @@ img.home-ill {
   display: block;
   margin: auto;
 }
-
+/* ***********
+  Restaurant Profile page styles
+  ************* */
+div#restProfile h1 {
+  font-size: 2.5rem;
+}
+div#restProfile h2 {
+  font-size: 2rem !important;
+}
+div#restProfile h3 {
+  font-size: 1.7rem !important;
+  font-family: "Libre Franklin", Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  color: black;
+}
+img#logo {
+  max-width: 350px;
+  margin-top: 2rem;
+}
 /* ***********
   Form styles
   ************* */
