@@ -78,7 +78,8 @@
                 pos: {
                         lat: Number(getEl.getAttribute('data-lat')),
                         lng: Number(getEl.getAttribute('data-lng'))
-                    }
+                    },
+                type: prefix
                 }
             lib.push(place);    
             }
@@ -117,21 +118,30 @@
         handleLocationError(false, infoWindow, map.getCenter());
         }
     }
-    // function setMarkers(map, lib){
-    //     for (let i = 0; i < lib.length; i++) {
-    //         let place = lib[i];
-    //         let image = {
-    //             url: '/static/images/restaurant_icon.png',
-    //             size: new google.maps.Size(25, 25)
-    //         }
-    //         let marker = new google.maps.Marker({
-    //             position: place.pos,
-    //             map: map,
-    //             animation: google.maps.Animation.DROP,
-    //             title: lib[i].name
-    //         })
-    //     }
-    // }
+    function setMarkers(map, lib){
+        for (let i = 0; i < lib.length; i++) {
+            let place = lib[i];
+            let imageUrl;
+            if(place.type === 'r'){
+                imageUrl = '/static/images/restaurant_icon.png';
+            } else {
+                imageUrl = '/static/images/facility_icon.png';
+            }
+            let image = {
+                url: imageUrl,
+                size: new google.maps.Size(25, 25),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(0, 25)
+            }
+            let marker = new google.maps.Marker({
+                position: place.pos,
+                map: map,
+                icon: image,
+                animation: google.maps.Animation.DROP,
+                title: lib[i].name
+            })
+        }
+    }
     
     function toggleBounce() {
         if (marker.getAnimation() !== null) {
