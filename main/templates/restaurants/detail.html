@@ -47,9 +47,10 @@
     <div class="row">
         <div class="col12">
             <h3>Cost: ${{ restaurant.mealCost }}/meal</h3>
-            <p class="red-text">Form here to select how many meals they want to donate.</p>
             <p class="lead">Help us reach our weekly goal of {{ restaurant.goal }} meals!</p>
             <p>Meals ordered so far this week: {{ restaurant.totalCollected }}</p>
+            <p class="red-text">Form here to select how many meals they want to donate.</p>
+            <div class="col s4 m1" id="paypal-button-container"></div>
         </div>
     </div>
     <div class=row>
@@ -107,5 +108,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
