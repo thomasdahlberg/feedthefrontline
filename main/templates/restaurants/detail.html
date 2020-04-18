@@ -14,7 +14,9 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
             </form>
             <img class="responsive-img card-panel" src="{{logo.url}}" id="logo">
             {% empty %}
+            {% if user.is_authenticated %}
             <div class="card-panel center align">No Logo Uploaded</div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>

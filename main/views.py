@@ -76,14 +76,16 @@ def signup(request):
 # Restarant Views (Visitor Visible)
 
 def rest_index(request):
+    user = request.user
     restaurants = Restaurant.objects.all().order_by('-id')
     facilities = Facility.objects.all().order_by('-id')
     rest_max = restaurants[0].id
     fac_max = facilities[0].id
-    context = { 'restaurants': restaurants, 'facilities': facilities, 'rest_max': rest_max, "fac_max": fac_max }
+    context = { 'restaurants': restaurants, 'facilities': facilities, 'rest_max': rest_max, "fac_max": fac_max, 'user': user}
     return render(request, 'restaurants/index.html', context)
 
 def rest_profile(request, restaurant_id):
+    user = request.user
     error_message = ''
     restaurant = Restaurant.objects.get(id=restaurant_id)
     rest_facs = restaurant.facility_set.all()
@@ -96,10 +98,11 @@ def rest_profile(request, restaurant_id):
             search_text = request.POST['placestext']
             result = gmaps.places(query=search_text)
             facilities = result['results']
-            context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities}
+            context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities, 'user': user}
             return render(request, 'restaurants/detail.html', context)
     return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo })
 
+@login_required
 def rest_create(request):
     error_message = ''
     if request.method == 'POST':
