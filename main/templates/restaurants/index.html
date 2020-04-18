@@ -76,8 +76,8 @@
                 let place = {
                 name: getEl.getAttribute('data-name'),
                 pos: {
-                        lat: getEl.getAttribute('data-lat'),
-                        lng: getEl.getAttribute('data-lng')
+                        lat: Number(getEl.getAttribute('data-lat')),
+                        lng: Number(getEl.getAttribute('data-lng'))
                     }
                 }
             lib.push(place);    
@@ -104,15 +104,10 @@
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
-                marker = new google.maps.Marker({
-                    map: map,
-                    draggable: true,
-                    animation: google.maps.Animation.DROP,
-                    position: pos
-                });
+                setMarkers(map, restLib);
+                setMarkers(map, facLib);
                 map.setCenter(pos);
-                map.setZoom(14);
-                marker.addListener('click', toggleBounce);
+                map.setZoom(12);
 
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
@@ -122,11 +117,18 @@
         handleLocationError(false, infoWindow, map.getCenter());
         }
     }
-    // function setMarkers(map){
-    //     for (let i = 0; i < restMarkers.length; i++) {
-    //         let restMarker = restMarkers[i];
+    // function setMarkers(map, lib){
+    //     for (let i = 0; i < lib.length; i++) {
+    //         let place = lib[i];
+    //         let image = {
+    //             url: '/static/images/restaurant_icon.png',
+    //             size: new google.maps.Size(25, 25)
+    //         }
     //         let marker = new google.maps.Marker({
-
+    //             position: place.pos,
+    //             map: map,
+    //             animation: google.maps.Animation.DROP,
+    //             title: lib[i].name
     //         })
     //     }
     // }

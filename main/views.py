@@ -71,6 +71,7 @@ def rest_profile(request, restaurant_id):
     error_message = ''
     restaurant = Restaurant.objects.get(id=restaurant_id)
     rest_facs = restaurant.facility_set.all()
+    logo = restaurant.logo_set.all()
     print(rest_facs.values('id'))
     if request.method == 'POST':
         if request.POST['router'] == "1":
@@ -81,7 +82,7 @@ def rest_profile(request, restaurant_id):
             facilities = result['results']
             context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities}
             return render(request, 'restaurants/detail.html', context)
-    return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs })
+    return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo })
 
 def rest_create(request):
     error_message = ''
