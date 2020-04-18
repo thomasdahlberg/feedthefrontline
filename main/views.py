@@ -130,7 +130,6 @@ def rm_fac(request, restaurant_id):
     instance.delete()
     return redirect('rest_profile', restaurant_id=restaurant_id)
 
-
 def add_logo(request, restaurant_id):
     logo_file = request.FILES.get('logo-file', None)
     if logo_file:
@@ -144,8 +143,13 @@ def add_logo(request, restaurant_id):
         except:
             print('An error has occured uploading your file to S3')
         return redirect('rest_profile', restaurant_id=restaurant_id)
-    
 
+def rm_logo(request, restaurant_id):
+    instance = Logo.objects.get(id=request.POST['logo_id'])
+    print(instance)
+    instance.delete()
+    return redirect('rest_profile', restaurant_id=restaurant_id)
+    
 class RestUpdate(UpdateView):
     model = Restaurant
     fields = [
