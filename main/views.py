@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect, reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import RestaurantForm, SignUpForm
 
 from .models import Restaurant, Transaction, Facility, Profile, Logo
-
-from django.contrib.auth import login, authenticate
-
-from .forms import SignUpForm
 
 import uuid
 import boto3
@@ -19,7 +17,6 @@ import datetime
 API_KEY = 'AIzaSyCSoVHw83uV_E-uSqxMW7nTxuT4OQCL2m4'
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'feedthefrontline'
-
 
 # Create your views here.
 def home(request):
@@ -132,6 +129,7 @@ def rest_create(request):
 
 # Restaurant Owner Views
 
+@login_required
 def assoc_fac(request, restaurant_id):
     print(request.POST)
     if request.POST['name']:
@@ -142,13 +140,14 @@ def assoc_fac(request, restaurant_id):
     else:
         error_message = 'Invalid restaurant profile - try again'
 
-
+@login_required
 def rm_fac(request, restaurant_id):
     instance = Facility.objects.get(id=request.POST['facility_id'])
     print(instance)
     instance.delete()
     return redirect('rest_profile', restaurant_id=restaurant_id)
 
+@login_required
 def add_logo(request, restaurant_id):
     logo_file = request.FILES.get('logo-file', None)
     if logo_file:
@@ -162,14 +161,15 @@ def add_logo(request, restaurant_id):
         except:
             print('An error has occured uploading your file to S3')
         return redirect('rest_profile', restaurant_id=restaurant_id)
- 
+
+@login_required 
 def rm_logo(request, restaurant_id):
     instance = Logo.objects.get(id=request.POST['logo_id'])
     print(instance)
     instance.delete()
     return redirect('rest_profile', restaurant_id=restaurant_id)
     
-class RestUpdate(UpdateView):
+class RestUpdate(LoginRequiredMixin, UpdateView):
     model = Restaurant
     fields = [
         'restaurantName',
@@ -185,6 +185,6 @@ class RestUpdate(UpdateView):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
-class RestDelete(DeleteView):
+class RestDelete(LoginRequiredMixin, DeleteView):
     model = Restaurant
     success_url = '/restaurants/'
