@@ -39,7 +39,6 @@ class Restaurant(models.Model):
         return reverse('rest_profile', kwargs={'restaurant_id': self.id})
 
 class Transaction(models.Model):
-    donor = models.ForeignKey(User, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     mealNumber = models.IntegerField()
     dollarAmount = models.IntegerField()
