@@ -14,6 +14,7 @@ from .forms import SignUpForm
 import uuid
 import boto3
 import googlemaps
+import datetime
 
 API_KEY = 'AIzaSyCSoVHw83uV_E-uSqxMW7nTxuT4OQCL2m4'
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
@@ -26,6 +27,24 @@ def home(request):
     
 def about(request):
     return render(request, 'about.html')
+
+def add_meals(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    meal_cost = restaurant.mealCost
+    meal_number = int(request.POST['mealNumber'])
+    dollar_amount = meal_cost * meal_number
+    print(dollar_amount)
+    context = {'restaurant': restaurant, 'dollar_amount': dollar_amount, 'meal_number': meal_number }
+    return render(request, 'restaurants/detail.html', context)
+
+def create_transaction(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    transaction = Transaction(restaurant=restaurant, mealNumber=int(request.GET['meal_number']), dollarAmount=request.GET['dollar_amount'], date=datetime.datetime.now())
+    transaction.save()
+    restaurant.mealsDonated += int(request.GET['meal_number'])
+    restaurant.save()
+    print(transaction)
+    return render(request, 'restaurants/detail.html', {'restaurant': restaurant})
 
 # Authorization and Registration
 
@@ -143,7 +162,7 @@ def add_logo(request, restaurant_id):
         except:
             print('An error has occured uploading your file to S3')
         return redirect('rest_profile', restaurant_id=restaurant_id)
-
+ 
 def rm_logo(request, restaurant_id):
     instance = Logo.objects.get(id=request.POST['logo_id'])
     print(instance)
