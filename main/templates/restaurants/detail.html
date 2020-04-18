@@ -5,15 +5,14 @@
     <div class="row">
         <div class="col12">
             {% for logo in restaurant.logo_set.all %}
-            <img class="responsive-img" src="{{logo.url}}" id="logo">
-            {% empty %}
-            <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post"
-                class="card-panel">
+            <form action="{% url 'rm_logo' restaurant.id %}" method="post">
                 {% csrf_token %}
-                <input type="file" name="logo-file">
-                <br><br>
-                <input type="submit" class="btn" value="Upload Logo">
+                <input type="hidden" name="logo_id" value="{{ logo.id }}">
+                <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
             </form>
+            <img class="responsive-img card-panel" src="{{logo.url}}" id="logo">
+            {% empty %}
+            <div class="card-panel center align">No Logo Uploaded</div>
             {% endfor %}
         </div>
     </div>
