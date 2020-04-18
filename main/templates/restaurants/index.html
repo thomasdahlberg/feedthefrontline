@@ -117,17 +117,21 @@
         handleLocationError(false, infoWindow, map.getCenter());
         }
     }
-    function setMarkers(map, lib){
-        for (let i = 0; i < lib.length; i++) {
-            let place = lib[i];
-            let marker = new google.maps.Marker({
-                position: place.pos,
-                map: map,
-                animation: google.maps.Animation.DROP,
-                title: lib[i].name
-            })
-        }
-    }
+    // function setMarkers(map, lib){
+    //     for (let i = 0; i < lib.length; i++) {
+    //         let place = lib[i];
+    //         let image = {
+    //             url: '/static/images/restaurant_icon.png',
+    //             size: new google.maps.Size(25, 25)
+    //         }
+    //         let marker = new google.maps.Marker({
+    //             position: place.pos,
+    //             map: map,
+    //             animation: google.maps.Animation.DROP,
+    //             title: lib[i].name
+    //         })
+    //     }
+    // }
     
     function toggleBounce() {
         if (marker.getAnimation() !== null) {
