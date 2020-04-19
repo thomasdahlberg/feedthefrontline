@@ -17,11 +17,11 @@
             {% for restaurant in restaurants %}
             <li class="sites" id="{{restaurant.id}}">
                 <div class="collapsible-header">
-                    <div><p><strong>{{restaurant.name}}</strong></p></div>
+                    <div><p><strong>{{restaurant.name }}</strong></p></div>
                 </div>
                     <div class="collapsible-body"><span>
                         <div>
-                            <div><p>{{restaurant.formatted_address}}</p></div>
+                            <div><p>{{restaurant.formatted_address }}</p></div>
                             <a id="{{restaurant.id}}" class="btn waves-effect waves-light green details">Add Restaurant Details</a>
                             <input type="hidden" name="name" value="{{restaurant.name}}">
                             <input type="hidden" name="address" value="{{restaurant.formatted_address}}">
@@ -38,7 +38,7 @@
     <div class="col s6">
         <form action="{% url 'rest_create' %}" method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|materializecss }}
             <input type="hidden" name="router" value="2">
             <input type="submit" value="Create My Restaurant Profile" class="btn">
         </form>
