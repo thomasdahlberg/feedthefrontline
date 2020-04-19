@@ -1,11 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Thank you!</h1>
-<p class="lead">Your donation has helped local restaurants keep their employees and fed frontline heros</p>
 <div class="row">
-    <div class="col s6">
-    <p>Your donation of {{ transaction.mealNumber}} meals has been recorded and will be delivered by {{ restaurant.restaurantName }}.</p>
+    <div class="col12">
+        <h1>Thank you!</h1>
+<h2>Your donation is helping local restaurants keep people employed, and feeding our frontline heros.</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 l6">
+    <p class="lead">Your donation of {{ transaction.mealNumber}} meal(s) will be delivered by {{ restaurant.restaurantName }} to: 
+        {% if rest_facs %}
+        <ul>
+            {% for rest_fac in rest_facs %}
+            <li>{{ rest_fac.facilityName }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}</p>
     </div>
     <div class="col s6">
         
