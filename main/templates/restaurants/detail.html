@@ -10,7 +10,9 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
             <form action="{% url 'rm_logo' restaurant.id %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="logo_id" value="{{ logo.id }}">
+                {% if user.is_authenticated %}
                 <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
+                {% endif %}
             </form>
             <img class="responsive-img card-panel" src="{{logo.url}}" id="logo">
             {% empty %}
@@ -26,7 +28,7 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
             <p>{{ restaurant.address }}<br />
                 <strong>Phone: </strong>{{ restaurant.phone }}<br />
                 <a href="{{ restaurant.url }}">{{ restaurant.url }}</a></p>
-            <h2>About us:</h2>
+            <h2>About Us:</h2>
             <p>{{ restaurant.aboutUs }}</p>
             {% if rest_facs %}
             <h3>We provide meals to:</h3>
@@ -38,7 +40,9 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
                         <form action="{% url 'rm_fac' restaurant.id %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="facility_id" value="{{ rest_fac.id }}">
+                            {% if user.is_authenticated %}
                             <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
+                            {% endif %}
                         </form>
                     </div>
                 </li>
@@ -69,6 +73,7 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
             </form>
         </div>
     </div>
+    {% if user.is_authenticated %}
     <div class=row>
         <div class="col12">
             <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit</a>
@@ -119,6 +124,7 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
                     </div>
                 </li>
                 {% endfor %}
+            {% endif %}
             {% endif %}
             </ul>
         </div>
