@@ -28,6 +28,9 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+def thankyou(request):
+    return render(request, 'thankyou.html')
+
 def add_meals(request, restaurant_id):
     restaurant = Restaurant.objects.get(id=restaurant_id)
     meal_cost = restaurant.mealCost
@@ -44,7 +47,8 @@ def create_transaction(request, restaurant_id):
     restaurant.mealsDonated += int(request.GET['meal_number'])
     restaurant.save()
     print(transaction)
-    return render(request, 'restaurants/detail.html', {'restaurant': restaurant})
+    context = {'restaurant': restaurant, 'transaction': transaction}
+    return render(request, 'thankyou.html', context)
 
 # Authorization and Registration
 
