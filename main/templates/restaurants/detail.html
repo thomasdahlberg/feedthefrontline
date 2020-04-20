@@ -2,7 +2,7 @@
 {% block content %}
 {% load materializecss %}
 <script
-src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2vrGS4CrzO_y8eTO-tyTQOQnt7MPjdxoaECsxPhIrgIiItJ"></script>
+src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2vrGS4CrzO_y8eTO-tyTQOQnt7MPjdxoaECsxPhIrgIiItJ&merchant-id=547BPXC8FNPFN"></script>
 <div id="restProfile">
     <div class="row">
         <div class="col12">
@@ -131,17 +131,9 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
     </div>
 </div>
 <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
-<!-- <script>
-    function createTransaction(event) {
-        event.preventDefault();
-        console.log('this is firing');
-        document.getElementById('createTransaction').submit();
-    }
-</script> -->
 <script>
     let dollar_amount = document.getElementById('paypal').getAttribute('data-dollarAmount')
     function createTransaction() {
-        console.log('this is firing');
         document.getElementById('createTransaction').submit();
     }
     paypal.Buttons({
