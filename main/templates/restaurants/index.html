@@ -1,46 +1,110 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% if user.is_authenticated %}
+<h1>My Restaurants</h1>
+{% else %}
 <h1>Donate.</h1>
 <p class="lead">Let's find a participating restaurant in your area.</p>
+{% endif %}
 <div class="row">
     <div class="col s6">
         <ul class="collapsible">
-            {% for restaurant in restaurants %}
-            <li class="sites" id="{{restaurant.id}}">
-                <div class="collapsible-header">
-                    <div>
-                        <h5>{{restaurant.restaurantName}}</h5>
-                        <p>{{restaurant.address}}</p>
-                    </div>
-                </div>
-                <div class="collapsible-body">
-                    <span>
-                        <div>
-                            <h6>Partnering with:</h6>
-                            <br>
-                            <ul>
-                            {% for facility in facilities %}
-                                {% if facility.restaurant.id == restaurant.id %}
-                                <li>{{ facility.facilityName }}</li>
-                                {% endif %}
-                            {% endfor %}
-                            </ul>
-                            <a href="{% url 'rest_profile' restaurant.id %}" class="btn">Donate</a>
-                            {% if user.is_authenticated %}
-                            <a href="{% url 'rest_update' restaurant.id %}" class="btn">Edit</a>
-                            {% endif %}
-                            <div
-                                id="r{{ restaurant.id }}"
-                                data-name="{{ restaurant.restaurantName }}"
-                                data-lat="{{ restaurant.lat }}"
-                                data-lng="{{ restaurant.lng }}"
-                            ></div>  
-                        </div>
-                    </span>
-                </div>
-            </li>
-            {% endfor %}
+            {% if user.is_authenticated %}
+                {% for restaurant in restaurants %}
+                    {%if restaurant.owner == user %}
+                            <li class="sites" id="{{restaurant.id}}">
+                                <div class="collapsible-header">
+                                    <div>
+                                        {% if restaurant.facility_set.all %}
+                                            <h5>{{restaurant.restaurantName}}</h5>    
+                                            <p>{{restaurant.address}}</p>
+                                        {% else %}
+                                            <h5 class="incomp">{{restaurant.restaurantName}}</h5>
+                                            <p class="incomp"><em>Incomplete Profile</em></p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="collapsible-body">
+                                    <span>
+                                        <div>
+                                            {% if restaurant.facility_set.all %}
+                                            <h6>Partnering with:</h6>
+                                            <br>
+                                            <ul>
+                                            {% for facility in facilities %}
+                                                {% if facility.restaurant.id == restaurant.id %}
+                                                <li>{{ facility.facilityName }}</li>
+                                                <div
+                                                    id="f{{ facility.id }}"
+                                                    data-name="{{ facility.facilityName }}"
+                                                    data-about-us="{{ restaurant.restaurantName }}"
+                                                    data-lat="{{ facility.lat }}"
+                                                    data-lng="{{ facility.lng }}"
+                                                ></div>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </ul>
+                                                <a href="{% url 'rest_profile' restaurant.id %}" class="btn">View Profile</a>
+                                            {% else %}
+                                                <a href="{% url 'rest_profile' restaurant.id %}" class="btn red">Complete Profile</a>
+                                            {% endif %}
+                                            <div
+                                                id="r{{ restaurant.id }}"
+                                                data-name="{{ restaurant.restaurantName }}"
+                                                data-about-us="{{ restaurant.aboutUs }}"
+                                                data-lat="{{ restaurant.lat }}"
+                                                data-lng="{{ restaurant.lng }}"
+                                            ></div>  
+                                        </div>
+                                    </span>
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% for restaurant in restaurants %}
+                        {% if restaurant.facility_set.all %}
+                            <li class="sites" id="{{restaurant.id}}">
+                                <div class="collapsible-header">
+                                    <div>
+                                        <h5>{{restaurant.restaurantName}}</h5>
+                                        <p>{{restaurant.address}}</p>
+                                    </div>
+                                </div>
+                                <div class="collapsible-body">
+                                    <span>
+                                        <div>
+                                            <h6>Partnering with:</h6>
+                                            <br>
+                                            <ul>
+                                            {% for facility in facilities %}
+                                                {% if facility.restaurant.id == restaurant.id %}
+                                                <li>{{ facility.facilityName }}</li>
+                                                <div
+                                                    id="f{{ facility.id }}"
+                                                    data-name="{{ facility.facilityName }}"
+                                                    data-about-us="{{ restaurant.restaurantName }}"
+                                                    data-lat="{{ facility.lat }}"
+                                                    data-lng="{{ facility.lng }}"
+                                                ></div>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </ul>
+                                            <a href="{% url 'rest_profile' restaurant.id %}" class="btn">Donate</a>
+                                            <div
+                                                id="r{{ restaurant.id }}"
+                                                data-name="{{ restaurant.restaurantName }}"
+                                                data-about-us="{{ restaurant.aboutUs }}"
+                                                data-lat="{{ restaurant.lat }}"
+                                                data-lng="{{ restaurant.lng }}"
+                                            ></div>  
+                                        </div>
+                                    </span>
+                                </div>
+                            </li>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </ul>
     </div>
     <div class="col s6">
@@ -57,14 +121,15 @@
     data-rest-count="{{ rest_max }}"
     data-fac-count="{{ fac_max }}"
 ></div>
-{% for facility in facilities %}
+<!-- {% for facility in facilities %}
 <div
     id="f{{ facility.id }}"
     data-name="{{ facility.facilityName }}"
+    data-about-us="{{ facility.restaurant}}"
     data-lat="{{ facility.lat }}"
     data-lng="{{ facility.lng }}"
 ></div>
-{% endfor %}
+{% endfor %} -->
 <script>
     let map, infoWindow, marker;
     let restLib = [];
@@ -77,11 +142,14 @@
             let getEl = document.getElementById(`${prefix}${i}`);
             if(getEl){
                 let place = {
+                id: i,
                 name: getEl.getAttribute('data-name'),
+                aboutUs: getEl.getAttribute('data-about-us'),
                 pos: {
                         lat: Number(getEl.getAttribute('data-lat')),
                         lng: Number(getEl.getAttribute('data-lng'))
-                    }
+                    },
+                type: prefix
                 }
             lib.push(place);    
             }
@@ -111,6 +179,7 @@
                 setMarkers(map, facLib);
                 map.setCenter(pos);
                 map.setZoom(12);
+            
 
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
@@ -120,21 +189,57 @@
         handleLocationError(false, infoWindow, map.getCenter());
         }
     }
-    // function setMarkers(map, lib){
-    //     for (let i = 0; i < lib.length; i++) {
-    //         let place = lib[i];
-    //         let image = {
-    //             url: '/static/images/restaurant_icon.png',
-    //             size: new google.maps.Size(25, 25)
-    //         }
-    //         let marker = new google.maps.Marker({
-    //             position: place.pos,
-    //             map: map,
-    //             animation: google.maps.Animation.DROP,
-    //             title: lib[i].name
-    //         })
-    //     }
-    // }
+    function setMarkers(map, lib){
+        for (let i = 0; i < lib.length; i++) {
+            let place = lib[i];
+            let imageUrl;
+            if(place.type === 'r'){
+                imageUrl = '/static/images/restaurant_icon.png';
+            } else {
+                imageUrl = '/static/images/facility_icon.png';
+            }
+
+            let infoWind = new google.maps.InfoWindow({
+                content: ''
+            })
+            let image = {
+                url: imageUrl,
+                size: new google.maps.Size(25, 25),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(0, 25)
+            }
+            let marker = new google.maps.Marker({
+                position: place.pos,
+                map: map,
+                icon: image,
+                animation: google.maps.Animation.DROP,
+                title: lib[i].name
+            })
+            let placeHTML = contentBuilder(place);
+            bindInfoWindow(marker, map, infoWind, placeHTML);
+        }
+        function bindInfoWindow(marker, map, infoWind, html) {
+            google.maps.event.addListener(marker, 'click', function() {
+            infoWind.setContent(html);
+            infoWind.open(map, marker);
+    });
+} 
+    }
+    
+    function contentBuilder(place){
+        if(place.type){
+            let contentString = '<div id="content">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                `<h5 id="firstHeading" class="firstHeading">${place.name}</h5>`+
+                '<div id="bodyContent">'+
+                `<p>${place.aboutUs}</p>`+
+                `<a class="btn" href="/restaurants/${place.id}">Donate</a>`+
+                '</div>'+
+                '</div>';
+
+        }
+    }
     
     function toggleBounce() {
         if (marker.getAnimation() !== null) {

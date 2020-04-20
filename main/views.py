@@ -105,7 +105,7 @@ def rest_profile(request, restaurant_id):
             facilities = result['results']
             context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities, 'user': user}
             return render(request, 'restaurants/detail.html', context)
-    return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo })
+    return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo, 'user':user })
 
 @login_required
 def rest_create(request):
