@@ -28,6 +28,7 @@ class Restaurant(models.Model):
     url = models.URLField(max_length=200, verbose_name='URL')
     aboutUs = models.TextField(verbose_name='About Us')
     mealCost = models.IntegerField(verbose_name='Meal Cost')
+    merchantID = models.CharField(max_length=100)
     totalCollected = models.IntegerField(default=0)
     mealsDonated = models.IntegerField(default=0)
     goal = models.IntegerField(default=0, verbose_name='Weekly Meal Goal')
@@ -40,6 +41,7 @@ class Restaurant(models.Model):
 
 class Transaction(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    merchantID = models
     mealNumber = models.IntegerField()
     dollarAmount = models.IntegerField()
     date = models.DateField("transaction date")
