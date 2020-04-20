@@ -86,9 +86,9 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
         <div class="col12">
             <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" class="card-panel">
                 {% csrf_token %}
-                <input type="file" name="logo-file">
+                <input type="file" name="logo-file" id="logo-file" onchange="testFile()">
                 <br><br>
-                <input type="submit" class="btn" value="Upload Logo">
+                <input type="submit" class="btn" value="Upload Logo" id="upload-logo" disabled>
             </form>
         </div>
     </div>
@@ -132,6 +132,11 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
 </div>
 <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
 <script>
+    function testFile(){
+        console.log('file changed!');
+        document.getElementById('upload-logo').removeAttribute("disabled");
+    }
+
     let dollar_amount = document.getElementById('paypal').getAttribute('data-dollarAmount')
     function createTransaction() {
         document.getElementById('createTransaction').submit();
