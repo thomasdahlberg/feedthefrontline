@@ -41,7 +41,6 @@ class Restaurant(models.Model):
 
 class Transaction(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    merchantID = models
     mealNumber = models.IntegerField()
     dollarAmount = models.IntegerField()
     date = models.DateField("transaction date")
