@@ -1,24 +1,22 @@
 from django.shortcuts import render, redirect, reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import RestaurantForm, SignUpForm
 
 from .models import Restaurant, Transaction, Facility, Profile, Logo
 
-from django.contrib.auth import login, authenticate
-
-from .forms import SignUpForm
-
 import uuid
 import boto3
 import googlemaps
+import datetime
 
 API_KEY = 'AIzaSyCSoVHw83uV_E-uSqxMW7nTxuT4OQCL2m4'
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'feedthefrontline'
-
 
 # Create your views here.
 def home(request):
@@ -26,6 +24,29 @@ def home(request):
     
 def about(request):
     return render(request, 'about.html')
+
+def thankyou(request):
+    return render(request, 'thankyou.html')
+
+def add_meals(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    meal_cost = restaurant.mealCost
+    meal_number = int(request.POST['mealNumber'])
+    dollar_amount = meal_cost * meal_number
+    print(dollar_amount)
+    context = {'restaurant': restaurant, 'dollar_amount': dollar_amount, 'meal_number': meal_number }
+    return render(request, 'restaurants/detail.html', context)
+
+def create_transaction(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    rest_facs = restaurant.facility_set.all()
+    transaction = Transaction(restaurant=restaurant, mealNumber=int(request.GET['meal_number']), dollarAmount=request.GET['dollar_amount'], date=datetime.datetime.now())
+    transaction.save()
+    restaurant.mealsDonated += int(request.GET['meal_number'])
+    restaurant.save()
+    print(transaction)
+    context = {'restaurant': restaurant, 'transaction': transaction, 'rest_facs': rest_facs}
+    return render(request, 'thankyou.html', context)
 
 # Authorization and Registration
 
@@ -60,14 +81,16 @@ def signup(request):
 # Restarant Views (Visitor Visible)
 
 def rest_index(request):
+    user = request.user
     restaurants = Restaurant.objects.all().order_by('-id')
     facilities = Facility.objects.all().order_by('-id')
     rest_max = restaurants[0].id
     fac_max = facilities[0].id
-    context = { 'restaurants': restaurants, 'facilities': facilities, 'rest_max': rest_max, "fac_max": fac_max }
+    context = { 'restaurants': restaurants, 'facilities': facilities, 'rest_max': rest_max, "fac_max": fac_max, 'user': user}
     return render(request, 'restaurants/index.html', context)
 
 def rest_profile(request, restaurant_id):
+    user = request.user
     error_message = ''
     restaurant = Restaurant.objects.get(id=restaurant_id)
     rest_facs = restaurant.facility_set.all()
@@ -80,10 +103,11 @@ def rest_profile(request, restaurant_id):
             search_text = request.POST['placestext']
             result = gmaps.places(query=search_text)
             facilities = result['results']
-            context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities}
+            context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities, 'user': user}
             return render(request, 'restaurants/detail.html', context)
     return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo })
 
+@login_required
 def rest_create(request):
     error_message = ''
     if request.method == 'POST':
@@ -113,6 +137,7 @@ def rest_create(request):
 
 # Restaurant Owner Views
 
+@login_required
 def assoc_fac(request, restaurant_id):
     print(request.POST)
     if request.POST['name']:
@@ -123,13 +148,14 @@ def assoc_fac(request, restaurant_id):
     else:
         error_message = 'Invalid restaurant profile - try again'
 
-
+@login_required
 def rm_fac(request, restaurant_id):
     instance = Facility.objects.get(id=request.POST['facility_id'])
     print(instance)
     instance.delete()
     return redirect('rest_profile', restaurant_id=restaurant_id)
 
+@login_required
 def add_logo(request, restaurant_id):
     logo_file = request.FILES.get('logo-file', None)
     if logo_file:
@@ -144,13 +170,14 @@ def add_logo(request, restaurant_id):
             print('An error has occured uploading your file to S3')
         return redirect('rest_profile', restaurant_id=restaurant_id)
 
+@login_required 
 def rm_logo(request, restaurant_id):
     instance = Logo.objects.get(id=request.POST['logo_id'])
     print(instance)
     instance.delete()
     return redirect('rest_profile', restaurant_id=restaurant_id)
     
-class RestUpdate(UpdateView):
+class RestUpdate(LoginRequiredMixin, UpdateView):
     model = Restaurant
     fields = [
         'restaurantName',
@@ -166,6 +193,6 @@ class RestUpdate(UpdateView):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
-class RestDelete(DeleteView):
+class RestDelete(LoginRequiredMixin, DeleteView):
     model = Restaurant
     success_url = '/restaurants/'

@@ -27,6 +27,9 @@
                             {% endfor %}
                             </ul>
                             <a href="{% url 'rest_profile' restaurant.id %}" class="btn">Donate</a>
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'rest_update' restaurant.id %}" class="btn">Edit</a>
+                            {% endif %}
                             <div
                                 id="r{{ restaurant.id }}"
                                 data-name="{{ restaurant.restaurantName }}"

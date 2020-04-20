@@ -12,7 +12,9 @@ urlpatterns = [
     path('restaurants/<int:restaurant_id>/assoc_fac/', views.assoc_fac, name='assoc_fac'),
     path('restaurants/<int:restaurant_id>/rm_fac/', views.rm_fac, name='rm_fac'),
     path('restaurants/<int:restaurant_id>/rm_logo/', views.rm_logo, name='rm_logo'),
-    # path('test/', views.test, name="test"),
+    path('thankyou/', views.thankyou, name="thankyou"),
     path('accounts/signup/', views.signup, name='signup'),
     path('restaurants/<int:restaurant_id>/add_logo/', views.add_logo, name='add_logo'),
+    path('restaurants/<int:restaurant_id>/add_meals/', views.add_meals, name="add_meals"),
+    path('restaurants/<int:restaurant_id>/create_transaction/', views.create_transaction, name='create_transaction')
 ]

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% load materializecss %}
+<script
+src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2vrGS4CrzO_y8eTO-tyTQOQnt7MPjdxoaECsxPhIrgIiItJ"></script>
 <div id="restProfile">
     <div class="row">
         <div class="col12">
@@ -8,11 +10,15 @@
             <form action="{% url 'rm_logo' restaurant.id %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="logo_id" value="{{ logo.id }}">
+                {% if user.is_authenticated %}
                 <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
+                {% endif %}
             </form>
             <img class="responsive-img card-panel" src="{{logo.url}}" id="logo">
             {% empty %}
+            {% if user.is_authenticated %}
             <div class="card-panel center align">No Logo Uploaded</div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
@@ -22,7 +28,7 @@
             <p>{{ restaurant.address }}<br />
                 <strong>Phone: </strong>{{ restaurant.phone }}<br />
                 <a href="{{ restaurant.url }}">{{ restaurant.url }}</a></p>
-            <h2>About us:</h2>
+            <h2>About Us:</h2>
             <p>{{ restaurant.aboutUs }}</p>
             {% if rest_facs %}
             <h3>We provide meals to:</h3>
@@ -34,7 +40,9 @@
                         <form action="{% url 'rm_fac' restaurant.id %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="facility_id" value="{{ rest_fac.id }}">
+                            {% if user.is_authenticated %}
                             <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
+                            {% endif %}
                         </form>
                     </div>
                 </li>
@@ -46,12 +54,26 @@
     <div class="row">
         <div class="col12">
             <h3>Cost: ${{ restaurant.mealCost }}/meal</h3>
-            <p class="lead">Help us reach our weekly goal of {{ restaurant.goal }} meals!</p>
-            <p>Meals ordered so far this week: {{ restaurant.totalCollected }}</p>
-            <p class="red-text">Form here to select how many meals they want to donate.</p>
-            <div class="col s4 m1" id="paypal-button-container"></div>
+            <p>Help us reach our weekly goal of {{ restaurant.goal }} meals!</p>
+            <p>Meals ordered so far this week: {{ restaurant.mealsDonated }}</p>
+            <form action="{% url 'add_meals' restaurant.id %}" method="POST">
+                {% csrf_token %}
+                <label for="mealNumber">How many meals would you like to donate?</label>
+                 <input type="number" name="mealNumber" id="mealNumber">
+                 <!-- <input type="hidden" name="router" value="3"> -->
+                 <input type="submit" value="Add to cart" class="btn btn-large btn-flat">
+            </form>
+            <p id="paypal" data-dollarAmount="{{ dollar_amount }}">Total: ${{ dollar_amount }}</p>
+
+            <div class="col s4 m1" id="paypal-button-container" onclick="createTransaction()"></div>
+            <form id="createTransaction" action="{% url 'create_transaction' restaurant.id %}" class="hidden">
+                <input type="hidden" name="meal_number" value="{{ meal_number }}">
+                <input type="hidden" name="dollar_amount" value="{{ dollar_amount }}">
+                <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
+            </form>
         </div>
     </div>
+    {% if user.is_authenticated %}
     <div class=row>
         <div class="col12">
             <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit</a>
@@ -103,8 +125,46 @@
                 </li>
                 {% endfor %}
             {% endif %}
+            {% endif %}
             </ul>
         </div>
     </div>
 </div>
+<script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
+<!-- <script>
+    function createTransaction(event) {
+        event.preventDefault();
+        console.log('this is firing');
+        document.getElementById('createTransaction').submit();
+    }
+</script> -->
+<script>
+    let dollar_amount = document.getElementById('paypal').getAttribute('data-dollarAmount')
+    function createTransaction() {
+        console.log('this is firing');
+        document.getElementById('createTransaction').submit();
+    }
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        // This function sets up the details of the transaction, including the amount and line item details.
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: dollar_amount
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        // This function captures the funds from the transaction.
+        return actions.order.capture().then(function(details) {
+          // This function shows a transaction success message to your buyer.
+          alert('Transaction completed by ' + details.payer.name.given_name);
+          createTransaction();
+          console.log(data);
+        });
+      }
+    }).render('#paypal-button-container');
+    //This function displays Smart Payment Buttons on your web page.
+  </script>
 {% endblock %}
