@@ -89,6 +89,10 @@ a.btn-flat.btn-large:hover, a.btn-flat.btn-large:active, a.btn-flat.btn-large:fo
   background-color: black;
 }
 
+.incomp {
+  color: red;
+}
+
 li.active > div {
   background-color: cornsilk;
   color: #1976d2;
