@@ -23,6 +23,13 @@
                             {% for facility in facilities %}
                                 {% if facility.restaurant.id == restaurant.id %}
                                 <li>{{ facility.facilityName }}</li>
+                                <div
+                                    id="f{{ facility.id }}"
+                                    data-name="{{ facility.facilityName }}"
+                                    data-about-us="{{ restaurant.restaurantName }}"
+                                    data-lat="{{ facility.lat }}"
+                                    data-lng="{{ facility.lng }}"
+                                ></div>
                                 {% endif %}
                             {% endfor %}
                             </ul>
@@ -33,6 +40,7 @@
                             <div
                                 id="r{{ restaurant.id }}"
                                 data-name="{{ restaurant.restaurantName }}"
+                                data-about-us="{{ restaurant.aboutUs }}"
                                 data-lat="{{ restaurant.lat }}"
                                 data-lng="{{ restaurant.lng }}"
                             ></div>  
@@ -57,14 +65,15 @@
     data-rest-count="{{ rest_max }}"
     data-fac-count="{{ fac_max }}"
 ></div>
-{% for facility in facilities %}
+<!-- {% for facility in facilities %}
 <div
     id="f{{ facility.id }}"
     data-name="{{ facility.facilityName }}"
+    data-about-us="{{ facility.restaurant}}"
     data-lat="{{ facility.lat }}"
     data-lng="{{ facility.lng }}"
 ></div>
-{% endfor %}
+{% endfor %} -->
 <script>
     let map, infoWindow, marker;
     let restLib = [];
@@ -77,7 +86,9 @@
             let getEl = document.getElementById(`${prefix}${i}`);
             if(getEl){
                 let place = {
+                id: i,
                 name: getEl.getAttribute('data-name'),
+                aboutUs: getEl.getAttribute('data-about-us'),
                 pos: {
                         lat: Number(getEl.getAttribute('data-lat')),
                         lng: Number(getEl.getAttribute('data-lng'))
@@ -112,6 +123,7 @@
                 setMarkers(map, facLib);
                 map.setCenter(pos);
                 map.setZoom(12);
+            
 
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
@@ -130,6 +142,10 @@
             } else {
                 imageUrl = '/static/images/facility_icon.png';
             }
+
+            let infoWind = new google.maps.InfoWindow({
+                content: ''
+            })
             let image = {
                 url: imageUrl,
                 size: new google.maps.Size(25, 25),
@@ -143,6 +159,29 @@
                 animation: google.maps.Animation.DROP,
                 title: lib[i].name
             })
+            let placeHTML = contentBuilder(place);
+            bindInfoWindow(marker, map, infoWind, placeHTML);
+        }
+        function bindInfoWindow(marker, map, infoWind, html) {
+            google.maps.event.addListener(marker, 'click', function() {
+            infoWind.setContent(html);
+            infoWind.open(map, marker);
+    });
+} 
+    }
+    
+    function contentBuilder(place){
+        if(place.type){
+            let contentString = '<div id="content">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                `<h5 id="firstHeading" class="firstHeading">${place.name}</h5>`+
+                '<div id="bodyContent">'+
+                `<p>${place.aboutUs}</p>`+
+                `<a class="btn" href="/restaurants/${place.id}">Donate</a>`+
+                '</div>'+
+                '</div>';
+
         }
     }
     
