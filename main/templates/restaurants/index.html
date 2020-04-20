@@ -12,86 +12,97 @@
             {% if user.is_authenticated %}
                 {% for restaurant in restaurants %}
                     {%if restaurant.owner == user %}
-                        <li class="sites" id="{{restaurant.id}}">
-                            <div class="collapsible-header">
-                                <div>
-                                    <h5>{{restaurant.restaurantName}}</h5>
-                                    <p>{{restaurant.address}}</p>
-                                </div>
-                            </div>
-                            <div class="collapsible-body">
-                                <span>
+                            <li class="sites" id="{{restaurant.id}}">
+                                <div class="collapsible-header">
                                     <div>
-                                        <h6>Partnering with:</h6>
-                                        <br>
-                                        <ul>
-                                        {% for facility in facilities %}
-                                            {% if facility.restaurant.id == restaurant.id %}
-                                            <li>{{ facility.facilityName }}</li>
-                                            <div
-                                                id="f{{ facility.id }}"
-                                                data-name="{{ facility.facilityName }}"
-                                                data-about-us="{{ restaurant.restaurantName }}"
-                                                data-lat="{{ facility.lat }}"
-                                                data-lng="{{ facility.lng }}"
-                                            ></div>
-                                            {% endif %}
-                                        {% endfor %}
-                                        </ul>
-                                        <a href="{% url 'rest_profile' restaurant.id %}" class="btn">View Profile</a>
-                                        <div
-                                            id="r{{ restaurant.id }}"
-                                            data-name="{{ restaurant.restaurantName }}"
-                                            data-about-us="{{ restaurant.aboutUs }}"
-                                            data-lat="{{ restaurant.lat }}"
-                                            data-lng="{{ restaurant.lng }}"
-                                        ></div>  
+                                        {% if restaurant.facility_set.all %}
+                                            <h5>{{restaurant.restaurantName}}</h5>    
+                                            <p>{{restaurant.address}}</p>
+                                        {% else %}
+                                            <h5 class="incomp">{{restaurant.restaurantName}}</h5>
+                                            <p class="incomp"><em>Incomplete Profile</em></p>
+                                        {% endif %}
                                     </div>
-                                </span>
-                            </div>
-                        </li>
-                    {% endif %}
-                {% endfor %}
+                                </div>
+                                <div class="collapsible-body">
+                                    <span>
+                                        <div>
+                                            {% if restaurant.facility_set.all %}
+                                            <h6>Partnering with:</h6>
+                                            <br>
+                                            <ul>
+                                            {% for facility in facilities %}
+                                                {% if facility.restaurant.id == restaurant.id %}
+                                                <li>{{ facility.facilityName }}</li>
+                                                <div
+                                                    id="f{{ facility.id }}"
+                                                    data-name="{{ facility.facilityName }}"
+                                                    data-about-us="{{ restaurant.restaurantName }}"
+                                                    data-lat="{{ facility.lat }}"
+                                                    data-lng="{{ facility.lng }}"
+                                                ></div>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </ul>
+                                                <a href="{% url 'rest_profile' restaurant.id %}" class="btn">View Profile</a>
+                                            {% else %}
+                                                <a href="{% url 'rest_profile' restaurant.id %}" class="btn red">Complete Profile</a>
+                                            {% endif %}
+                                            <div
+                                                id="r{{ restaurant.id }}"
+                                                data-name="{{ restaurant.restaurantName }}"
+                                                data-about-us="{{ restaurant.aboutUs }}"
+                                                data-lat="{{ restaurant.lat }}"
+                                                data-lng="{{ restaurant.lng }}"
+                                            ></div>  
+                                        </div>
+                                    </span>
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
                 {% else %}
                     {% for restaurant in restaurants %}
-                    <li class="sites" id="{{restaurant.id}}">
-                        <div class="collapsible-header">
-                            <div>
-                                <h5>{{restaurant.restaurantName}}</h5>
-                                <p>{{restaurant.address}}</p>
-                            </div>
-                        </div>
-                        <div class="collapsible-body">
-                            <span>
-                                <div>
-                                    <h6>Partnering with:</h6>
-                                    <br>
-                                    <ul>
-                                    {% for facility in facilities %}
-                                        {% if facility.restaurant.id == restaurant.id %}
-                                        <li>{{ facility.facilityName }}</li>
-                                        <div
-                                            id="f{{ facility.id }}"
-                                            data-name="{{ facility.facilityName }}"
-                                            data-about-us="{{ restaurant.restaurantName }}"
-                                            data-lat="{{ facility.lat }}"
-                                            data-lng="{{ facility.lng }}"
-                                        ></div>
-                                        {% endif %}
-                                    {% endfor %}
-                                    </ul>
-                                    <a href="{% url 'rest_profile' restaurant.id %}" class="btn">Donate</a>
-                                    <div
-                                        id="r{{ restaurant.id }}"
-                                        data-name="{{ restaurant.restaurantName }}"
-                                        data-about-us="{{ restaurant.aboutUs }}"
-                                        data-lat="{{ restaurant.lat }}"
-                                        data-lng="{{ restaurant.lng }}"
-                                    ></div>  
+                        {% if restaurant.facility_set.all %}
+                            <li class="sites" id="{{restaurant.id}}">
+                                <div class="collapsible-header">
+                                    <div>
+                                        <h5>{{restaurant.restaurantName}}</h5>
+                                        <p>{{restaurant.address}}</p>
+                                    </div>
                                 </div>
-                            </span>
-                        </div>
-                    </li>
+                                <div class="collapsible-body">
+                                    <span>
+                                        <div>
+                                            <h6>Partnering with:</h6>
+                                            <br>
+                                            <ul>
+                                            {% for facility in facilities %}
+                                                {% if facility.restaurant.id == restaurant.id %}
+                                                <li>{{ facility.facilityName }}</li>
+                                                <div
+                                                    id="f{{ facility.id }}"
+                                                    data-name="{{ facility.facilityName }}"
+                                                    data-about-us="{{ restaurant.restaurantName }}"
+                                                    data-lat="{{ facility.lat }}"
+                                                    data-lng="{{ facility.lng }}"
+                                                ></div>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </ul>
+                                            <a href="{% url 'rest_profile' restaurant.id %}" class="btn">Donate</a>
+                                            <div
+                                                id="r{{ restaurant.id }}"
+                                                data-name="{{ restaurant.restaurantName }}"
+                                                data-about-us="{{ restaurant.aboutUs }}"
+                                                data-lat="{{ restaurant.lat }}"
+                                                data-lng="{{ restaurant.lng }}"
+                                            ></div>  
+                                        </div>
+                                    </span>
+                                </div>
+                            </li>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </ul>
