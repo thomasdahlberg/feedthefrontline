@@ -125,6 +125,12 @@ div#restProfile h3 {
   font-weight: 900;
   color: black;
 }
+div#restProfile h4 {
+  font-size: 1.5rem !important;
+  font-family: "Libre Franklin", Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  color: black;
+}
 img#logo {
   max-width: 350px;
   margin-top: 2rem;
@@ -145,7 +151,7 @@ form p, form ul {
     margin-bottom: 0;
     margin-left: 1rem;
   }
-  .input-field > label, label > span {
+  .input-field > label, label > span, label {
     font-family: "Libre Franklin", Helvetica, Arial, sans-serif;
     font-weight: 900;
     color: black;
@@ -203,7 +209,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 
   /* ***********
-BOOTSTRAP spacing styles
+  BOOTSTRAP spacing styles
   ************* */
 
   .w-25 {
