@@ -137,12 +137,14 @@
 </div>
 <div>
 <hr>
+{% if user.is_authenticated %}
     <div class="row mt-5">
         <div class="col12">
             <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat mr-4">Edit Profile</a>
             <a href="{% url 'rest_delete' restaurant.id %}" class="btn btn-large btn-flat">Delete Profile</a>
         </div>    
     </div>
+    {% endif %}
 </div>
 
 <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
