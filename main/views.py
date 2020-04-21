@@ -1,3 +1,8 @@
+import uuid
+import datetime
+import boto3
+import googlemaps
+
 from django.shortcuts import render, redirect, reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
@@ -9,11 +14,6 @@ from .forms import RestaurantForm, SignUpForm
 
 from .models import Restaurant, Transaction, Facility, Profile, Logo
 
-import uuid
-import boto3
-import googlemaps
-import datetime
-
 API_KEY = 'AIzaSyCSoVHw83uV_E-uSqxMW7nTxuT4OQCL2m4'
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'feedthefrontline'
@@ -21,7 +21,7 @@ BUCKET = 'feedthefrontline'
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
-    
+
 def about(request):
     return render(request, 'about.html')
 
@@ -33,8 +33,9 @@ def add_meals(request, restaurant_id):
     meal_cost = restaurant.mealCost
     meal_number = int(request.POST['mealNumber'])
     dollar_amount = meal_cost * meal_number
-    print(dollar_amount)
-    context = {'restaurant': restaurant, 'dollar_amount': dollar_amount, 'meal_number': meal_number }
+    src = f'https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2vrGS4CrzO_y8eTO-tyTQOQnt7MPjdxoaECsxPhIrgIiItJ&merchant-id={restaurant.merchantID}'
+    print(src)
+    context = {'restaurant': restaurant, 'dollar_amount': dollar_amount, 'meal_number': meal_number, 'src': src}
     return render(request, 'restaurants/detail.html', context)
 
 def create_transaction(request, restaurant_id):
@@ -44,8 +45,9 @@ def create_transaction(request, restaurant_id):
     transaction.save()
     restaurant.mealsDonated += int(request.GET['meal_number'])
     restaurant.save()
-    print(transaction)
-    context = {'restaurant': restaurant, 'transaction': transaction, 'rest_facs': rest_facs}
+    src = f'https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2vrGS4CrzO_y8eTO-tyTQOQnt7MPjdxoaECsxPhIrgIiItJ&merchant-id={restaurant.merchantID}'
+    print(src)
+    context = {'restaurant': restaurant, 'transaction': transaction, 'rest_facs': rest_facs, 'src': src}
     return render(request, 'thankyou.html', context)
 
 # Authorization and Registration
@@ -86,7 +88,7 @@ def rest_index(request):
     facilities = Facility.objects.all().order_by('-id')
     rest_max = restaurants[0].id
     fac_max = facilities[0].id
-    context = { 'restaurants': restaurants, 'facilities': facilities, 'rest_max': rest_max, "fac_max": fac_max, 'user': user}
+    context = {'restaurants': restaurants, 'facilities': facilities, 'rest_max': rest_max, "fac_max": fac_max, 'user': user}
     return render(request, 'restaurants/index.html', context)
 
 def rest_profile(request, restaurant_id):
@@ -105,7 +107,7 @@ def rest_profile(request, restaurant_id):
             facilities = result['results']
             context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities, 'user': user}
             return render(request, 'restaurants/detail.html', context)
-    return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo, 'user':user })
+    return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo, 'user':user})
 
 @login_required
 def rest_create(request):
@@ -160,7 +162,7 @@ def add_logo(request, restaurant_id):
     logo_file = request.FILES.get('logo-file', None)
     if logo_file:
         s3 = boto3.client('s3')
-        key= uuid.uuid4().hex[:6] + logo_file.name[logo_file.name.rfind('.'):]
+        key = uuid.uuid4().hex[:6] + logo_file.name[logo_file.name.rfind('.'):]
         try:
             s3.upload_fileobj(logo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
@@ -176,7 +178,23 @@ def rm_logo(request, restaurant_id):
     print(instance)
     instance.delete()
     return redirect('rest_profile', restaurant_id=restaurant_id)
-    
+
+@login_required
+def add_merchid(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    if request.POST['merchid']:
+        merchid = request.POST['merchid']
+        restaurant.merchantID = merchid
+        restaurant.save()
+        print(restaurant.merchantID)
+        return redirect('rest_profile', restaurant_id=restaurant_id)
+
+def rm_merchid(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    restaurant.merchantID = ''
+    restaurant.save()
+    return redirect('rest_profile', restaurant_id=restaurant_id)
+
 class RestUpdate(LoginRequiredMixin, UpdateView):
     model = Restaurant
     fields = [
@@ -187,6 +205,7 @@ class RestUpdate(LoginRequiredMixin, UpdateView):
         'aboutUs',
         'mealCost',
         'goal',
+        'merchantID'
     ]
 
     def form_valid(self, form):
