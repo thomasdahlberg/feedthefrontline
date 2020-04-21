@@ -80,12 +80,12 @@ div.justify-around {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-a.btn-flat.btn-large {
+.btn-flat.btn-large {
   background-color: #d9753b;
   color: white;
   font-weight: 600;
 }
-a.btn-flat.btn-large:hover, a.btn-flat.btn-large:active, a.btn-flat.btn-large:focus {
+.btn-flat.btn-large:hover, .btn-flat.btn-large:active, .btn-flat.btn-large:focus {
   background-color: black;
 }
 
@@ -128,6 +128,10 @@ div#restProfile h3 {
 img#logo {
   max-width: 350px;
   margin-top: 2rem;
+}
+.restTools {
+  background-color: #F8F8F8;
+  padding: 1rem;
 }
 /* ***********
   Form styles
