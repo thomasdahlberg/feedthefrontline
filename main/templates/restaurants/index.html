@@ -1,13 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if user.is_authenticated %}
-<h1>My Restaurants</h1>
-{% else %}
-<h1>Donate.</h1>
-<p class="lead">Let's find a participating restaurant in your area.</p>
-{% endif %}
 <div class="row">
-    <div class="col s6">
+    <div class="col s12 l6">
+        <h1>My Restaurants</h1>
+    </div>
+</div>
+
+{% else %}
+<div class="row">
+    <div class="col s12 l6">
+        <h1>Donate.</h1>
+        <p class="lead">Find a participating restaurant in your area.</p>
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" name="places-search" placeholder="Enter your zipcode">
+    <input type="submit" value="Search" class="btn">
+</form>   
+{% endif %}
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col s12 l6">
         <ul class="collapsible">
             {% if user.is_authenticated %}
                 {% for restaurant in restaurants %}
@@ -92,7 +108,7 @@
                                                 {% endif %}
                                             {% endfor %}
                                             </ul>
-                                            <a href="{% url 'rest_profile' restaurant.id %}" class="btn">Donate</a>
+                                            <a href="{% url 'rest_profile' restaurant.id %}" class="btn btn-flat btn-large">Donate</a>
                                             <div
                                                 id="r{{ restaurant.id }}"
                                                 data-name="{{ restaurant.restaurantName }}"
@@ -109,14 +125,10 @@
             {% endif %}
         </ul>
     </div>
-    <div class="col s6">
+    <div class="col s12 l6">
         <div id ="map"></div>
     </div>
-    <form action="" method="post">
-        {% csrf_token %}
-        <input type="text" name="places-search">
-        <input type="submit" value="Submit">
-    </form>    
+     
 </div>
 <div 
     id="counts"
