@@ -93,10 +93,6 @@ div.justify-around {
   color: red;
 }
 
-li.active > div {
-  background-color: cornsilk;
-  color: #1976d2;
-}
 
 .delete {
   background-color: #d91818;
@@ -139,7 +135,22 @@ img#logo {
   background-color: #F8F8F8;
   padding: 3rem;
 }
-/* ***********
+
+/************
+  Restaurant list styles
+  ************* */
+ul.collapsible {
+  border: none;
+  box-shadow: none;
+}
+ul.collapsible > li {
+  list-style: none !important;
+}
+ul.collapsible > li.active > div {
+  background-color: #F8F8F8;
+}
+
+/************
   Form styles
   ************* */
 
