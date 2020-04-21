@@ -62,64 +62,61 @@
                 <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
             </form>
         </div>
-    </div>
-    {% if user.is_authenticated %}
-    <div class=row>
-        <div class="col12">
-            <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit</a>
-            <a href="{% url 'rest_delete' restaurant.id %}" class="btn btn-large btn-flat">Delete</a>
-        </div>    
-    </div>
-</div>
-<div class="restTools">
-    <div class="row">
-        <div class="col12">
+        {% if user.is_authenticated %}
+        <div class="col s12 l4 offset-l1 restTools">
+            <p class="lead">Add or update your logo</p>
             <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" class="card-panel">
                 {% csrf_token %}
                 <input type="file" name="logo-file" id="logo-file" onchange="testFile()">
                 <br><br>
                 <input type="submit" class="btn" value="Upload Logo" id="upload-logo" disabled>
             </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col12">
-            <form action="{% url 'rest_profile' restaurant.id %}" method="post" class="container-3">
-                <h6>Search for a Facility</h6>
-                {% csrf_token %}
-                <input type="text" name="placestext" id="placestext">
-                <input type="hidden" name="router" value="1">
-                <input type="submit" value="Facility Search" class="btn">
-            </form>
-            <ul id="search-results" class="collapsible">
-            {% if facilities %}
-                {% for facility in facilities %}
-                <li class="sites" id="{{facility.id}}">
-                    <div class="collapsible-header">
-                        <div><p><strong>{{facility.name}}</strong></p></div>
-                    </div>
-                        <div class="collapsible-body"><span>
-                            <div>
-                                <div><p>{{facility.formatted_address}}</p></div>
-                                <form action="{% url 'assoc_fac' restaurant.id %}" method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" id="{{facility.id}}" class="btn waves-effect waves-light green details">Link Facility</button>
-                                    <input type="hidden" name="name" value="{{facility.name}}">
-                                    <input type="hidden" name="address" value="{{facility.formatted_address}}">
-                                    <input type="hidden" name="latitude" value="{{facility.geometry.location.lat}}">
-                                    <input type="hidden" name="longitude" value="{{facility.geometry.location.lng}}">
-                                </form>
+            <hr>
+            <p class="lead">Add a donation facility</p>
+            <p>Before adding a donation facility, contact the hospital, lab or medical center and make sure you have met all health and safety requirements and, once you reach your goal number of meals, you have a contact to arrange a date and time for delivery.</p>
+            <div class="card">
+                <div class="card-content">
+                    <form action="{% url 'rest_profile' restaurant.id %}" method="post" class="container-3">
+                        <h6>Search for a Facility</h6>
+                        {% csrf_token %}
+                        <input type="text" name="placestext" id="placestext">
+                        <input type="hidden" name="router" value="1">
+                        <input type="submit" value="Facility Search" class="btn">
+                    </form>
+                    <ul id="search-results" class="collapsible">
+                    {% if facilities %}
+                        {% for facility in facilities %}
+                        <li class="sites" id="{{facility.id}}">
+                            <div class="collapsible-header">
+                                <div><p><strong>{{facility.name}}</strong></p></div>
                             </div>
-                        </span>
-                    </div>
-                </li>
-                {% endfor %}
-            {% endif %}
+                                <div class="collapsible-body"><span>
+                                    <div>
+                                        <div><p>{{facility.formatted_address}}</p></div>
+                                        <form action="{% url 'assoc_fac' restaurant.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" id="{{facility.id}}" class="btn waves-effect waves-light green details">Link Facility</button>
+                                            <input type="hidden" name="name" value="{{facility.name}}">
+                                            <input type="hidden" name="address" value="{{facility.formatted_address}}">
+                                            <input type="hidden" name="latitude" value="{{facility.geometry.location.lat}}">
+                                            <input type="hidden" name="longitude" value="{{facility.geometry.location.lng}}">
+                                        </form>
+                                    </div>
+                                </span>
+                            </div>
+                        </li>
+        
+                        {% endfor %}
+                    {% endif %}
+                    </ul>
+                </div>
             </div>
             <hr>
-            <div>
-                <h5>Add your PayPal Merchant ID</h5>
-                <p>Current PayPal Merchant ID: {{ restaurant.merchantID }}</p>
+            <p class="lead">Add your PayPal Merchant ID</p>
+            <p>You can find your Secure PayPal merchant account ID under "Account options" in Settings. More information can be found on <a href="https://www.paypal.com/us/smarthelp/article/FAQ3850" target="_blank" rel="noopener noreferrer">the PayPal website</a>.</p>
+            <div class="card">
+                <div class="card-content">
+                    <p>Current PayPal Merchant ID: {{ restaurant.merchantID }}</p>
                 <form action="{% url 'rm_merchid' restaurant.id %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="merchid" value="{{ restaurant.merchantID }}">
@@ -131,21 +128,23 @@
                     <input type="text" name="merchid">
                     <input type="submit" class="btn" value="Add PayPal ID">
                 </form>
-
+                </div>
             </div>
-            <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit Profile</a>
-            <a href="{% url 'rest_delete' restaurant.id %}" class="btn btn-large btn-flat">Delete Profile</a>
+            
         </div>
+        {% endif %}
     </div>
-
-    <div class=row>
+</div>
+<div>
+<hr>
+    <div class="row mt-5">
         <div class="col12">
-            <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit Profile</a>
+            <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat mr-4">Edit Profile</a>
             <a href="{% url 'rest_delete' restaurant.id %}" class="btn btn-large btn-flat">Delete Profile</a>
         </div>    
     </div>
 </div>
-{% endif %}
+
 <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
 <script>
     function testFile(){
