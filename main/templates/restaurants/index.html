@@ -150,24 +150,9 @@
 
     function buildMarkerLibrary(lib, prefix, max){
         for(let i = 1; i <= max; i++){
-            if(prefix === "r"){
-                let getEl = document.getElementById(`${prefix}${i}`);
-                if(getEl){
-                    let place = {
-                    id: i,
-                    name: getEl.getAttribute('data-name'),
-                    aboutUs: getEl.getAttribute('data-about-us'),
-                    pos: {
-                            lat: Number(getEl.getAttribute('data-lat')),
-                            lng: Number(getEl.getAttribute('data-lng'))
-                        },
-                    type: prefix
-                    }
-                lib.push(place);    
-                }
-            } else {
-                let getEl = document.getElementById(`${prefix}${i}`);
-                if(getEl){
+            let getEl = document.getElementById(`${prefix}${i}`);
+            if(getEl){
+                if(prefix === "r"){
                     let place = {
                     id: i,
                     name: getEl.getAttribute('data-name'),
@@ -177,13 +162,27 @@
                             lng: Number(getEl.getAttribute('data-lng'))
                         },
                     type: prefix,
-                    restId: getEl.getAttribute('data-rest-id')
+                    restId: i
                     }
-                lib.push(place);
+                    lib.push(place);
+                } else {
+                    let place = {
+                        id: i,
+                        name: getEl.getAttribute('data-name'),
+                        aboutUs: getEl.getAttribute('data-about-us'),
+                        pos: {
+                                lat: Number(getEl.getAttribute('data-lat')),
+                                lng: Number(getEl.getAttribute('data-lng'))
+                            },
+                        type: prefix,
+                        restId: getEl.getAttribute('data-rest-id')
+                        }
+                    lib.push(place);    
                 }
             }
         }
     }
+    
 
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
