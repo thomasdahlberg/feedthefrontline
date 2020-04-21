@@ -40,6 +40,7 @@
                                                     data-about-us="{{ restaurant.restaurantName }}"
                                                     data-lat="{{ facility.lat }}"
                                                     data-lng="{{ facility.lng }}"
+                                                    data-rest-id="{{ restaurant.id }}"
                                                 ></div>
                                                 {% endif %}
                                             {% endfor %}
@@ -84,6 +85,7 @@
                                                     id="f{{ facility.id }}"
                                                     data-name="{{ facility.facilityName }}"
                                                     data-about-us="{{ restaurant.restaurantName }}"
+                                                    data-rest-id="{{ restaurant.id }}"
                                                     data-lat="{{ facility.lat }}"
                                                     data-lng="{{ facility.lng }}"
                                                 ></div>
@@ -121,50 +123,59 @@
     data-rest-count="{{ rest_max }}"
     data-fac-count="{{ fac_max }}"
 ></div>
-<!-- {% for facility in facilities %}
-<div
-    id="f{{ facility.id }}"
-    data-name="{{ facility.facilityName }}"
-    data-about-us="{{ facility.restaurant}}"
-    data-lat="{{ facility.lat }}"
-    data-lng="{{ facility.lng }}"
-></div>
-{% endfor %} -->
 <script>
     let map, infoWindow, marker;
     let restLib = [];
     let facLib = [];
     let restMax = document.getElementById('counts').getAttribute('data-rest-count');
     let facMax = document.getElementById('counts').getAttribute('data-rest-count');
-    
-    function buildMarkerLibrary(lib, prefix, max){
-        for(let i = 1; i <= max; i++){
-            let getEl = document.getElementById(`${prefix}${i}`);
-            if(getEl){
-                let place = {
-                id: i,
-                name: getEl.getAttribute('data-name'),
-                aboutUs: getEl.getAttribute('data-about-us'),
-                pos: {
-                        lat: Number(getEl.getAttribute('data-lat')),
-                        lng: Number(getEl.getAttribute('data-lng'))
-                    },
-                type: prefix
-                }
-            lib.push(place);    
-            }
-        }
-    }
+    let prevInfoWindow = false;
 
     buildMarkerLibrary(restLib, "r", restMax);
     buildMarkerLibrary(facLib, "f", facMax)
     console.log(restLib);
     console.log(facLib);
 
+    function buildMarkerLibrary(lib, prefix, max){
+        for(let i = 1; i <= max; i++){
+            if(prefix === "r"){
+                let getEl = document.getElementById(`${prefix}${i}`);
+                if(getEl){
+                    let place = {
+                    id: i,
+                    name: getEl.getAttribute('data-name'),
+                    aboutUs: getEl.getAttribute('data-about-us'),
+                    pos: {
+                            lat: Number(getEl.getAttribute('data-lat')),
+                            lng: Number(getEl.getAttribute('data-lng'))
+                        },
+                    type: prefix
+                    }
+                lib.push(place);    
+                }
+            } else {
+                let getEl = document.getElementById(`${prefix}${i}`);
+                if(getEl){
+                    let place = {
+                    id: i,
+                    name: getEl.getAttribute('data-name'),
+                    aboutUs: getEl.getAttribute('data-about-us'),
+                    pos: {
+                            lat: Number(getEl.getAttribute('data-lat')),
+                            lng: Number(getEl.getAttribute('data-lng'))
+                        },
+                    type: prefix,
+                    restId: getEl.getAttribute('data-rest-id')
+                    }
+                lib.push(place);
+                }
+            }
+        }
+    }
 
     function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 59.325, lng: 18.070},
+        center: restLib[0].pos,
         zoom: 13
         });
 
@@ -182,11 +193,17 @@
             
 
         }, function() {
+            let infoWindow = new google.maps.InfoWindow({
+                content: ''
+            })
             handleLocationError(true, infoWindow, map.getCenter());
         });
         } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
+            let infoWindow = new google.maps.InfoWindow({
+                content: ''
+            })
+            handleLocationError(false, infoWindow, map.getCenter());
         }
     }
     function setMarkers(map, lib){
@@ -198,7 +215,6 @@
             } else {
                 imageUrl = '/static/images/facility_icon.png';
             }
-
             let infoWind = new google.maps.InfoWindow({
                 content: ''
             })
@@ -215,30 +231,24 @@
                 animation: google.maps.Animation.DROP,
                 title: lib[i].name
             })
-            let placeHTML = contentBuilder(place);
+            let placeHTML; 
+            if(place.type === "r"){
+                placeHTML = `<strong>${place.name}</strong><br><p>${place.aboutUs}</p><br><a class="btn-small" href="/restaurants/${place.id}">Donate</a>`;
+            } else {
+                placeHTML = `<strong>${place.name}</strong><br><p>Served by ${place.aboutUs}</p><br><a class="btn-small" href="/restaurants/${place.restId}">Donate</a>`
+            }
             bindInfoWindow(marker, map, infoWind, placeHTML);
         }
         function bindInfoWindow(marker, map, infoWind, html) {
             google.maps.event.addListener(marker, 'click', function() {
+            if(prevInfoWindow){
+                prevInfoWindow.close();
+            }
+            prevInfoWindow = infoWind;
             infoWind.setContent(html);
             infoWind.open(map, marker);
-    });
-} 
-    }
-    
-    function contentBuilder(place){
-        if(place.type){
-            let contentString = '<div id="content">'+
-                '<div id="siteNotice">'+
-                '</div>'+
-                `<h5 id="firstHeading" class="firstHeading">${place.name}</h5>`+
-                '<div id="bodyContent">'+
-                `<p>${place.aboutUs}</p>`+
-                `<a class="btn" href="/restaurants/${place.id}">Donate</a>`+
-                '</div>'+
-                '</div>';
-
-        }
+            });
+        } 
     }
     
     function toggleBounce() {
@@ -247,7 +257,8 @@
         } else {
             marker.setAnimation(google.maps.Animation.BOUNCE);
         }
-        }
+    }
+
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?

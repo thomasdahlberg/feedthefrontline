@@ -62,25 +62,29 @@
                 <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
             </form>
         </div>
-        {% if user.is_authenticated %}
-        <div class="col s12 l4 offset-l1 restTools">
-            <h3>Update profile elements</h3>
-            <div>
-                <h5>Logo</h5>
-
-                <br>    
-                    <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" >
-                        {% csrf_token %}
-                        <input type="file" name="logo-file">
-                        <br><br>
-                        <input type="submit" class="btn" value="Upload Logo">
-                    </form>
-            </div>
-            <hr>
-            <div>
-                <h5>Add a facility</h5>
-                <br>    
-                   <form action="{% url 'rest_profile' restaurant.id %}" method="post" class="container-3">
+    </div>
+    {% if user.is_authenticated %}
+    <div class=row>
+        <div class="col12">
+            <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit</a>
+            <a href="{% url 'rest_delete' restaurant.id %}" class="btn btn-large btn-flat">Delete</a>
+        </div>    
+    </div>
+</div>
+<div class="restTools">
+    <div class="row">
+        <div class="col12">
+            <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" class="card-panel">
+                {% csrf_token %}
+                <input type="file" name="logo-file" id="logo-file" onchange="testFile()">
+                <br><br>
+                <input type="submit" class="btn" value="Upload Logo" id="upload-logo" disabled>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col12">
+            <form action="{% url 'rest_profile' restaurant.id %}" method="post" class="container-3">
                 <h6>Search for a Facility</h6>
                 {% csrf_token %}
                 <input type="text" name="placestext" id="placestext">
@@ -144,6 +148,11 @@
 {% endif %}
 <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
 <script>
+    function testFile(){
+        console.log('file changed!');
+        document.getElementById('upload-logo').removeAttribute("disabled");
+    }
+
     let dollar_amount = document.getElementById('paypal').getAttribute('data-dollarAmount')
     function createTransaction() {
         document.getElementById('createTransaction').submit();
