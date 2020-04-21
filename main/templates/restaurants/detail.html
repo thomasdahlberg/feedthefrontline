@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load materializecss %}
-<script
-src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2vrGS4CrzO_y8eTO-tyTQOQnt7MPjdxoaECsxPhIrgIiItJ&merchant-id={{ restaurant.merchantID }}"></script>
+<script src="{{ src }}"></script>
 <div id="restProfile">
     <div class="row">
         <div class="col s12 l7">
@@ -63,6 +62,7 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
                 <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
             </form>
         </div>
+        {% if user.is_authenticated %}
         <div class="col s12 l4 offset-l1 restTools">
             <h3>Update profile elements</h3>
             <div>
@@ -118,21 +118,22 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
                 <p>Current PayPal Merchant ID: {{ restaurant.merchantID }}</p>
                 <form action="{% url 'rm_merchid' restaurant.id %}" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="merchid" value="{{ merchid }}">
+                    <input type="hidden" name="merchid" value="{{ restaurant.merchantID }}">
                     <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
                 </form>
+                
                 <form action="{% url 'add_merchid' restaurant.id %}" method="post">
                     {% csrf_token %}
                     <input type="text" name="merchid">
                     <input type="submit" class="btn" value="Add PayPal ID">
                 </form>
+
             </div>
             <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit Profile</a>
             <a href="{% url 'rest_delete' restaurant.id %}" class="btn btn-large btn-flat">Delete Profile</a>
         </div>
     </div>
 
-    {% if user.is_authenticated %}
     <div class=row>
         <div class="col12">
             <a href="{% url 'rest_update' restaurant.id %}" class="btn btn-large btn-flat">Edit Profile</a>
@@ -140,7 +141,6 @@ src="https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2v
         </div>    
     </div>
 </div>
-
 {% endif %}
 <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
 <script>
