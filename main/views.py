@@ -44,6 +44,7 @@ def create_transaction(request, restaurant_id):
     transaction = Transaction(restaurant=restaurant, mealNumber=int(request.GET['meal_number']), dollarAmount=request.GET['dollar_amount'], date=datetime.datetime.now())
     transaction.save()
     restaurant.mealsDonated += int(request.GET['meal_number'])
+    restaurant.totalCollected += int(request.GET['meal_number'])
     restaurant.save()
     src = f'https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2vrGS4CrzO_y8eTO-tyTQOQnt7MPjdxoaECsxPhIrgIiItJ&merchant-id={restaurant.merchantID}'
     print(src)
