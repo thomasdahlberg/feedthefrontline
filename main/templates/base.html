@@ -39,10 +39,21 @@
                     <li><a href="{% url 'login' %}">Log In</a></li>
                     {% endif %}
                 </ul>
-
             </div>
         </nav>
+        
     </header>
+    <ul class="sidenav" id="mobile-demo">
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'rest_create' %}">Add a Restaurant</a></li>
+        <li><a href="{% url 'rest_index' %}">My Restaurants</a></li>
+        <li><a href="{% url 'logout' %}">Log Out</a></li>
+        {% else %}
+        <li><a href="{% url 'rest_index' %}">Find A Restaurant</a></li>
+        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        <li><a href="{% url 'login' %}">Log In</a></li>
+        {% endif %}
+      </ul>
     <main class="container">
         {% block content %}
         {% endblock %}
@@ -55,5 +66,10 @@
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script>M.AutoInit();</script>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, options);
+  });
+</script>
 </html>
