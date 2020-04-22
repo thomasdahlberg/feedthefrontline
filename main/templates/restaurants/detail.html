@@ -104,7 +104,7 @@
                                         <div><p>{{facility.formatted_address}}</p></div>
                                         <form action="{% url 'assoc_fac' restaurant.id %}" method="post">
                                             {% csrf_token %}
-                                            <button type="submit" id="{{facility.id}}" class="btn waves-effect waves-light green details">Link Facility</button>
+                                            <button type="submit" id="{{facility.id}}" class="btn btn-flat btn-small details mt-2">Link Facility</button>
                                             <input type="hidden" name="name" value="{{facility.name}}">
                                             <input type="hidden" name="address" value="{{facility.formatted_address}}">
                                             <input type="hidden" name="latitude" value="{{facility.geometry.location.lat}}">
