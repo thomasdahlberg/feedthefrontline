@@ -93,9 +93,21 @@ div.justify-around {
   color: white;
   font-weight: 600;
 }
+
+.btn-flat.btn-small{
+  background-color: #d9753b;
+  color: white;
+  font-weight: 600;
+}
+
 .btn-flat.btn-large:hover, .btn-flat.btn-large:active, .btn-flat.btn-large:focus {
   background-color: black;
 }
+
+.btn-flat.btn-small:hover, .btn-flat.btn-small:active, .btn-flat.btn-small:focus {
+  background-color: black;
+}
+
 
 .incomp {
   color: #d91818;

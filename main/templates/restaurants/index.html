@@ -184,8 +184,9 @@
     function initMap() {
         let geocoder;
         let userInput;
-        userInput = document.getElementById('places-search').value;
-        
+        if(document.getElementById('places-search')){
+            userInput = document.getElementById('places-search').value;
+        };        
         
         let map = new google.maps.Map(document.getElementById('map'), {
         center: restLib[0].pos,
@@ -196,7 +197,7 @@
             console.log(userInput);
             placesSearch = new google.maps.places.PlacesService(map);
             placesSearch.textSearch({query: userInput}, function(results, status){
-                if (status == google.maps.PlacesServiceStatus.OK) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
                     map.setCenter(results[0].geometry.location);
                 } else {
                     alert("Invalid location, try again!");
@@ -266,9 +267,9 @@
             })
             let placeHTML; 
             if(place.type === "r"){
-                placeHTML = `<strong>${place.name}</strong><br><p>${place.aboutUs}</p><br><a class="btn-small" href="/restaurants/${place.id}">Donate</a>`;
+                placeHTML = `<strong>${place.name}</strong><br><p>${place.aboutUs}</p><br><a class="btn btn-flat btn-small" style="color:white;background-color:#d9753b;font-weight:600" href="/restaurants/${place.id}">Donate</a>`;
             } else {
-                placeHTML = `<strong>${place.name}</strong><br><p>Served by ${place.aboutUs}</p><br><a class="btn-small" href="/restaurants/${place.restId}">Donate</a>`
+                placeHTML = `<strong>${place.name}</strong><br><p>Served by ${place.aboutUs}</p><br><a class="btn btn-flat btn-small" style="color:white;background-color:#d9753b;font-weight:600" href="/restaurants/${place.restId}">Donate</a>`
             }
             bindInfoWindow(marker, map, infoWind, placeHTML);
         }
@@ -300,6 +301,6 @@
         infoWindow.open(map);
     }
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSoVHw83uV_E-uSqxMW7nTxuT4OQCL2m4&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSoVHw83uV_E-uSqxMW7nTxuT4OQCL2m4&libraries=places&callback=initMap"></script>
 
 {% endblock %}
