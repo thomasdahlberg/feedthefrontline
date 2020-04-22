@@ -108,6 +108,11 @@ div.justify-around {
   background-color: black;
 }
 
+.btn-flat.btn-small:hover, .btn-flat.btn-small:active, .btn-flat.btn-small:focus {
+  background-color: black;
+}
+
+
 .incomp {
   color: #d91818;
 }
