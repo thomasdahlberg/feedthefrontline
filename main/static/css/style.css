@@ -62,6 +62,10 @@ h2 {
 h3 {
   font-size: 2rem !important;
 }
+h6 {
+  font-family: "Libre Franklin", Helvetica, Arial, sans-serif;
+  font-weight: 900;
+}
 strong {
   font-weight: 700;
 }
@@ -73,6 +77,13 @@ ul > li {
 }
 ul.inset {
   margin-left: 1.5rem;
+}
+.total {
+  display: flex;
+  justify-content: center;
+  background-color: #F8F8F8;
+  padding: 40px 0;
+  margin-top: 100px;
 }
 
 footer {
@@ -88,12 +99,12 @@ div.justify-around {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-.btn-flat.btn-large {
+.btn-flat.btn-large, .btn-small {
   background-color: #d9753b;
   color: white;
   font-weight: 600;
 }
-.btn-flat.btn-large:hover, .btn-flat.btn-large:active, .btn-flat.btn-large:focus {
+.btn-flat.btn-large:hover, .btn-flat.btn-large:active, .btn-flat.btn-large:focus, .btn-small:hover {
   background-color: black;
 }
 
@@ -102,10 +113,16 @@ div.justify-around {
 }
 
 
-.delete {
-  background-color: #d91818;
+button.btn.delete {
+  background-color: grey;
+  padding: 0 12px;
 }
-
+button.btn.delete i.material-icons {
+  font-size: 1.1rem;
+}
+button.btn.delete:hover {
+  background-color:#d91818;
+}
 /* ***********
   Home page styles
   ************* */
@@ -156,6 +173,10 @@ img#logo {
 .restTools {
   background-color: #F8F8F8;
   padding: 3rem;
+
+}
+.rust {
+  color: #d9753b;
 }
 
 /************
@@ -1595,4 +1616,21 @@ textarea.materialize-textarea:focus:not([readonly]) {
     .mx-xl-auto {
       margin-left: auto !important;
     }
+  }
+  .d-flex {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+  }
+  .d-block {
+    display: block !important;
+  }
+  .flex-wrap {
+    -ms-flex-wrap: wrap !important;
+    flex-wrap: wrap !important;
+  }
+  .justify-content-center {
+    -webkit-box-pack: center !important;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
   }

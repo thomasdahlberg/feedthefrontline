@@ -147,7 +147,7 @@ def assoc_fac(request, restaurant_id):
         facility = Facility(facilityName=request.POST['name'], restaurant_id=restaurant_id, active=True, lat=request.POST['latitude'], lng=request.POST['longitude'])
         facility.save()
         print(facility.id)
-        return redirect('rest_profile', restaurant_id=restaurant_id)
+        return redirect('rest_update', restaurant_id=restaurant_id)
     else:
         error_message = 'Invalid restaurant profile - try again'
 
@@ -156,7 +156,7 @@ def rm_fac(request, restaurant_id):
     instance = Facility.objects.get(id=request.POST['facility_id'])
     print(instance)
     instance.delete()
-    return redirect('rest_profile', restaurant_id=restaurant_id)
+    return redirect('rest_update', restaurant_id=restaurant_id)
 
 @login_required
 def add_logo(request, restaurant_id):
@@ -171,14 +171,14 @@ def add_logo(request, restaurant_id):
             logo.save()
         except:
             print('An error has occured uploading your file to S3')
-        return redirect('rest_profile', restaurant_id=restaurant_id)
+        return redirect('rest_update')
 
 @login_required 
 def rm_logo(request, restaurant_id):
     instance = Logo.objects.get(id=request.POST['logo_id'])
     print(instance)
     instance.delete()
-    return redirect('rest_profile', restaurant_id=restaurant_id)
+    return redirect('rest_update')
 
 @login_required
 def add_merchid(request, restaurant_id):
