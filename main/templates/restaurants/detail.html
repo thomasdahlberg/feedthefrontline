@@ -11,7 +11,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="logo_id" value="{{ logo.id }}">
                 {% if user.is_authenticated %}
-                <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
+                <button type="submit" class="btn delete mt-2"><i class="material-icons">delete</i></button>
                 {% endif %}
             </form>
             {% empty %}
@@ -38,20 +38,16 @@
                     {% csrf_token %}
                     <input type="hidden" name="facility_id" value="{{ rest_fac.id }}">
                     {% if user.is_authenticated %}
-                    <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
+                    <button type="submit" class="btn delete mt-2"><i class="material-icons">delete</i></button>
                     {% endif %}
                 </form>
                 {% endfor %}
             </ul>
             {% endif %}
             <h3>Cost: ${{ restaurant.mealCost }}/meal</h3>
-            <p>Help us reach our weekly goal of {{ restaurant.goal }} meals!</p>
+            <p>Help us reach our weekly goal of <strong>{{ restaurant.goal }}</stron> meals!</p>
             <p>Meals ordered so far this week: {{ restaurant.mealsDonated }}</p>
-            <form action="{% url 'reset_mealsdonated' restaurant.id %}" method="post">
-                {% csrf_token %}
-                <button type="submit" value="reset">Reset</button>
-            </form>
-            <p>Total meals served: {{ restaurant.totalCollected }}</p>
+            
             <form class="my-5" action="{% url 'add_meals' restaurant.id %}" method="POST">
                 {% csrf_token %}
                 <label for="mealNumber">How many meals would you like to donate?</label>
@@ -69,7 +65,15 @@
         </div>
         {% if user.is_authenticated %}
         <div class="col s12 l4 offset-l1 restTools">
-            <p class="lead">Add or update your logo</p>
+            <h3 class="mb-5">Dashboard</h3>
+            <h5>Total meals served: {{ restaurant.totalCollected }}</h5>
+            <h6 class="mb-4">Meals ordered this week: {{ restaurant.mealsDonated }}</h6>
+            <form action="{% url 'reset_mealsdonated' restaurant.id %}" method="post" class="mb-4">
+                {% csrf_token %}
+                <button type="submit" value="reset" class="btn btn-flat btn-large">Delivered</button>
+            </form>
+            <hr>
+            <h6 class="mt-4">Add or update your logo</h6>
             <form action="{% url 'add_logo' restaurant.id %}" enctype="multipart/form-data" method="post" class="card-panel">
                 {% csrf_token %}
                 <input type="file" name="logo-file" id="logo-file" onchange="testFile()">
@@ -77,7 +81,7 @@
                 <input type="submit" class="btn" value="Upload Logo" id="upload-logo" disabled>
             </form>
             <hr>
-            <p class="lead">Add a donation facility</p>
+            <h6 class="mt-4">Add a donation facility</h6>
             <p>Before adding a donation facility, contact the hospital, lab or medical center and make sure you have met all health and safety requirements and, once you reach your goal number of meals, you have a contact to arrange a date and time for delivery.</p>
             <div class="card">
                 <div class="card-content">
@@ -100,7 +104,7 @@
                                         <div><p>{{facility.formatted_address}}</p></div>
                                         <form action="{% url 'assoc_fac' restaurant.id %}" method="post">
                                             {% csrf_token %}
-                                            <button type="submit" id="{{facility.id}}" class="btn waves-effect waves-light green details">Link Facility</button>
+                                            <button type="submit" id="{{facility.id}}" class="btn btn-flat btn-small details mt-2">Link Facility</button>
                                             <input type="hidden" name="name" value="{{facility.name}}">
                                             <input type="hidden" name="address" value="{{facility.formatted_address}}">
                                             <input type="hidden" name="latitude" value="{{facility.geometry.location.lat}}">
@@ -117,7 +121,7 @@
                 </div>
             </div>
             <hr>
-            <p class="lead">Add your PayPal Merchant ID</p>
+            <h6 class="mt-4">Add your PayPal Merchant ID</h6>
             <p>You can find your Secure PayPal merchant account ID under "Account options" in Settings. More information can be found on <a href="https://www.paypal.com/us/smarthelp/article/FAQ3850" target="_blank" rel="noopener noreferrer">the PayPal website</a>.</p>
             <div class="card">
                 <div class="card-content">
@@ -125,7 +129,7 @@
                 <form action="{% url 'rm_merchid' restaurant.id %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="merchid" value="{{ restaurant.merchantID }}">
-                    <button type="submit" class="btn delete"><i class="material-icons">delete</i></button>
+                    <button type="submit" class="btn delete mt-2"><i class="material-icons">delete</i></button>
                 </form>
                 
                 <form action="{% url 'add_merchid' restaurant.id %}" method="post">
@@ -136,6 +140,10 @@
                 </div>
             </div>
             
+        </div>
+        {% else %}
+        <div class="col s12 l4 offset-l1 total">
+            <h3 class="center-align">Total meals served:<br><span class="rust">{{ restaurant.totalCollected }}</span></h3>
         </div>
         {% endif %}
     </div>

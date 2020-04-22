@@ -2,7 +2,7 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class="row">
-    <div class="col s12 l6">
+    <div class="col12">
         <h1>My Restaurants</h1>
     </div>
 </div>
@@ -58,7 +58,7 @@
                                                 {% endif %}
                                             {% endfor %}
                                             </ul>
-                                                <a href="{% url 'rest_profile' restaurant.id %}" class="btn btn-flat btn-large">View Profile</a>
+                                                <a href="{% url 'rest_profile' restaurant.id %}" class="btn btn-flat btn-large mt-4">View Profile</a>
                                             {% else %}
                                                 <a href="{% url 'rest_profile' restaurant.id %}" class="btn red">Complete Profile</a>
                                             {% endif %}
@@ -89,7 +89,7 @@
                                     <span>
                                         <div>
                                             <h6>Partnering with:</h6>
-                                            <br>
+
                                             <ul>
                                             {% for facility in facilities %}
                                                 {% if facility.restaurant.id == restaurant.id %}
@@ -105,7 +105,7 @@
                                                 {% endif %}
                                             {% endfor %}
                                             </ul>
-                                            <a href="{% url 'rest_profile' restaurant.id %}" class="btn btn-flat btn-large">Donate</a>
+                                            <a href="{% url 'rest_profile' restaurant.id %}" class="btn btn-flat btn-small mt-2">Donate</a>
                                             <div
                                                 id="r{{ restaurant.id }}"
                                                 data-name="{{ restaurant.restaurantName }}"
