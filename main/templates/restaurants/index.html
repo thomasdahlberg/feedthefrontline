@@ -12,11 +12,8 @@
     <div class="col s12 l6">
         <h1>Donate.</h1>
         <p class="lead">Find a participating restaurant in your area.</p>
-<form action="" method="post">
-    {% csrf_token %}
-    <input type="text" name="places-search" placeholder="Enter your zipcode">
-    <input type="submit" value="Search" class="btn">
-</form>   
+    <input type="text" name="places-search" placeholder="Enter your zipcode" id="places-search">
+    <input type="submit" value="Search" class="btn" onclick="initMap()">
 {% endif %}
     </div>
 </div>
@@ -31,7 +28,7 @@
                             <li class="sites" id="{{restaurant.id}}">
                                 <div class="collapsible-header">
                                     <div>
-                                        {% if restaurant.facility_set.all %}
+                                        {% if restaurant.facility_set.all and restaurant.merchantID %}
                                             <h5>{{restaurant.restaurantName}}</h5>    
                                             <p>{{restaurant.address}}</p>
                                         {% else %}
@@ -43,12 +40,12 @@
                                 <div class="collapsible-body">
                                     <span>
                                         <div>
-                                            {% if restaurant.facility_set.all %}
+                                            {% if restaurant.facility_set.all and restaurant.merchantID%}
                                             <h6>Partnering with:</h6>
                                             <br>
                                             <ul>
                                             {% for facility in facilities %}
-                                                {% if facility.restaurant.id == restaurant.id %}
+                                                {% if facility.restaurant.id == restaurant.id and restaurant.merchantID %}
                                                 <li>{{ facility.facilityName }}</li>
                                                 <div
                                                     id="f{{ facility.id }}"
@@ -80,7 +77,7 @@
                     {% endfor %}
                 {% else %}
                     {% for restaurant in restaurants %}
-                        {% if restaurant.facility_set.all %}
+                        {% if restaurant.facility_set.all and restaurant.merchantID %}
                             <li class="sites" id="{{restaurant.id}}">
                                 <div class="collapsible-header">
                                     <div>
@@ -185,10 +182,31 @@
     
 
     function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
+        let geocoder;
+        let userInput;
+        userInput = document.getElementById('places-search').value;
+        
+        
+        let map = new google.maps.Map(document.getElementById('map'), {
         center: restLib[0].pos,
         zoom: 13
         });
+        
+        if(userInput){
+            console.log(userInput);
+            placesSearch = new google.maps.places.PlacesService(map);
+            placesSearch.textSearch({query: userInput}, function(results, status){
+                if (status == google.maps.PlacesServiceStatus.OK) {
+                    map.setCenter(results[0].geometry.location);
+                } else {
+                    alert("Invalid location, try again!");
+                }
+            });
+        }
+    
+
+        
+
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -208,6 +226,8 @@
                 content: ''
             })
             handleLocationError(true, infoWindow, map.getCenter());
+            setMarkers(map, restLib);
+            setMarkers(map, facLib);
         });
         } else {
         // Browser doesn't support Geolocation
@@ -215,6 +235,8 @@
                 content: ''
             })
             handleLocationError(false, infoWindow, map.getCenter());
+            setMarkers(map, restLib);
+            setMarkers(map, facLib);
         }
     }
     function setMarkers(map, lib){
