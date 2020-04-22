@@ -267,9 +267,9 @@
             })
             let placeHTML; 
             if(place.type === "r"){
-                placeHTML = `<strong>${place.name}</strong><br><p>${place.aboutUs}</p><br><a class="btn btn-flat btn-small" style="color:white;background-color:#d9753b;font-weight:600" href="/restaurants/${place.id}">Donate</a>`;
+                placeHTML = `<strong>${place.name}</strong><br><p>${place.aboutUs}</p><br><a class="btn btn-flat btn-small" href="/restaurants/${place.id}">Donate</a>`;
             } else {
-                placeHTML = `<strong>${place.name}</strong><br><p>Served by ${place.aboutUs}</p><br><a class="btn btn-flat btn-small" style="color:white;background-color:#d9753b;font-weight:600" href="/restaurants/${place.restId}">Donate</a>`
+                placeHTML = `<strong>${place.name}</strong><br><p>Served by ${place.aboutUs}</p><br><a class="btn btn-flat btn-small" href="/restaurants/${place.restId}">Donate</a>`
             }
             bindInfoWindow(marker, map, infoWind, placeHTML);
         }
