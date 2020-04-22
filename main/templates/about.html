@@ -1,76 +1,78 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row">
-    <h1>About</h1>
-    <p class="lead">Sparkly copy needed.</p>
-</div>
-
-<div class="row">
-    <div class="col12">
-        <h2>What is this, exactly?</h2>
+<div id="about">
+    <div class="row">
+        <h1>About</h1>
+        <p class="lead">Sparkly copy needed.</p>
     </div>
-    <div class="col s12 m6">
-        <h4>It's simple.</h4>
-        <ol>
-            <li>Donors select a restaurant in their local community and designate the number of meals they'd like to
-                donate.</li>
-            <li>Restaurants create and deliver those meals to local hospitals, labs or other frontline facilities.</li>
-        </ol>
+    
+    <div class="row">
+        <div class="col12">
+            <h2>What is this, exactly?</h2>
+        </div>
+        <div class="col s12 m6">
+            <h4>It's simple.</h4>
+            <ol>
+                <li>Donors select a restaurant in their local community and designate the number of meals they'd like to
+                    donate.</li>
+                <li>Restaurants create and deliver those meals to local hospitals, labs or other frontline facilities.</li>
+            </ol>
+        </div>
+        <div class="col s12 m6">
+            <h4>It's a win-win-win.</h4>
+            <ol>
+                <li>Donors show support their local communities, thank the frontline heros.</li>
+                <li>Restaurants keep the lights on and their people employed.</li>
+                <li>Frontline heros get a delicious meal and don't have to eat out of a vending machine for once.</li>
+            </ol>
+        </div>
     </div>
-    <div class="col s12 m6">
-        <h4>It's a win-win-win.</h4>
-        <ol>
-            <li>Donors show support their local communities, thank the frontline heros.</li>
-            <li>Restaurants keep the lights on and their people employed.</li>
-            <li>Frontline heros get a delicious meal and don't have to eat out of a vending machine for once.</li>
-        </ol>
-    </div>
-</div>
-<div class="row">
-    <div class="col s12 m9">
-        <h2>Why get involved?</h2>
-        <h3>Why not?!?</h3>
-        <p>You have an opportunity to keep people employed, help those sitting at home feel engaged in their community,
-            AND reach a few new potential customers at the same time.</p>
-    </div>
-    <div class="col s12 m9">
-        <h2>How do I sign up my restaurant?</h2>
-        <ol>
-            <li>When you <a href="{% url 'signup' %}">sign up</a>, check <strong>"I am restaurant"</strong>.</li>
-            <li>Fill in the restaurant profile.</li>
-                <ul class="inset">
-                <li>Put your restaurant name into the Google search field.</li>
-                    <li>Your name and location information will automatically populate the form.</li>
-                    <li>Put a link to your main website</li>
-                    <li>Have Facebook or Instagram accounts? Add them!</li>
-                    <li>Set the cost per meal donors will pay.</li>
-                    <li>Add a short description of your restaurant, perhaps including the number of people you hope
-                        to keep employed by participating in this program.</li>
-                    <li>Set the weekly goal number of meals you would like to provide.</li>
-                </ul>
-            </li>
-            <li>Contact a hospital or other frontline facility you'd like to donate to.</li>
-            <li>Once the connection has been established:</li>
-                <ul class="inset">
-                    <li>Add the facility to your profile.</li>
-                    <li>Upload your restaurant's logo.</li>
-                    <li>Add your PayPal link.</li>
-                </ul>
-        </ol>
-    </div>
-    <div class="col s12 m9">
-        <h2>And then?</h2>
-        <h3>Start advertising your participation!</h3>
-        <ol>
-            <li>Check in daily to see how many meals have been donated.</li>
-            <li>Once you reach your goal number, contact your donation facility and set up a delivery date and time!
-            </li>
-            <li>Log back in and check off when you've delivered your meals.</li>
-        </ol>
-    </div>
-    <div class="col s12">
-        <a href="{% url 'signup' %}" class="btn-large btn-flat">Sign up now!</a>
+    <div class="row">
+        <div class="col s12 m9">
+            <h2>Why get involved?</h2>
+            <h3>Why not?!?</h3>
+            <p>You have an opportunity to keep people employed, help those sitting at home feel engaged in their community,
+                AND reach a few new potential customers at the same time.</p>
+        </div>
+        <div class="col s12 m9">
+            <h2>How do I sign up my restaurant?</h2>
+            <ol>
+                <li>When you <a href="{% url 'signup' %}">sign up</a>, check <strong>"I am restaurant"</strong>.</li>
+                <li>Fill in the restaurant profile.</li>
+                    <ul class="inset">
+                    <li>Put your restaurant name into the Google search field.</li>
+                        <li>Your name and location information will automatically populate the form.</li>
+                        <li>Put a link to your main website</li>
+                        <li>Have Facebook or Instagram accounts? Add them!</li>
+                        <li>Set the cost per meal donors will pay.</li>
+                        <li>Add a short description of your restaurant, perhaps including the number of people you hope
+                            to keep employed by participating in this program.</li>
+                        <li>Set the weekly goal number of meals you would like to provide.</li>
+                    </ul>
+                </li>
+                <li>Contact a hospital or other frontline facility you'd like to donate to.</li>
+                <li>Once the connection has been established:</li>
+                    <ul class="inset">
+                        <li>Add the facility to your profile.</li>
+                        <li>Upload your restaurant's logo.</li>
+                        <li>Add your PayPal link.</li>
+                    </ul>
+            </ol>
+        </div>
+        <div class="col s12 m9">
+            <h2>And then?</h2>
+            <h3>Start advertising your participation!</h3>
+            <ol>
+                <li>Check in daily to see how many meals have been donated.</li>
+                <li>Once you reach your goal number, contact your donation facility and set up a delivery date and time!
+                </li>
+                <li>Log back in and check off when you've delivered your meals.</li>
+            </ol>
+        </div>
+        <div class="col s12">
+            <a href="{% url 'signup' %}" class="btn-large btn-flat">Sign up now!</a>
+        </div>
     </div>
 </div>
 

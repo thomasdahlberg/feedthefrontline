@@ -16,15 +16,25 @@ nav {
 nav ul li {
   list-style-type: none !important;
 }
+
 .nav-wrapper {
   margin: 0 2rem;
 }
 a.brand-logo {
   font-family: "Libre Franklin", Helvetica, Arial, sans-serif;
   font-weight: 900;
+  display: flex;
+  align-content: center;
 }
 a.brand-logo > img {
-  height: 60px;
+  height: 58px;
+  padding-top: 2px;
+}
+@media (max-width:599px) {
+  a.brand-logo > img {
+    width: 85%;
+    padding-top: 2px;
+  }
 }
 
 /* ***********
@@ -64,7 +74,7 @@ ul > li {
 ul.inset {
   margin-left: 1.5rem;
 }
-li {
+#about > li {
   margin-bottom: 10px;
 }
 footer {
