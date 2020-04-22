@@ -92,7 +92,7 @@
                                     <span>
                                         <div>
                                             <h6>Partnering with:</h6>
-                                            <br>
+
                                             <ul>
                                             {% for facility in facilities %}
                                                 {% if facility.restaurant.id == restaurant.id %}
@@ -108,7 +108,7 @@
                                                 {% endif %}
                                             {% endfor %}
                                             </ul>
-                                            <a href="{% url 'rest_profile' restaurant.id %}" class="btn btn-flat btn-large">Donate</a>
+                                            <a href="{% url 'rest_profile' restaurant.id %}" class="btn btn-flat btn-small mt-2">Donate</a>
                                             <div
                                                 id="r{{ restaurant.id }}"
                                                 data-name="{{ restaurant.restaurantName }}"
