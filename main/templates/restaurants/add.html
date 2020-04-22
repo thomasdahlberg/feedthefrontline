@@ -22,7 +22,7 @@
                     <div class="collapsible-body"><span>
                         <div>
                             <div><p>{{restaurant.formatted_address }}</p></div>
-                            <a id="{{restaurant.id}}" class="btn waves-effect waves-light green details">Add Restaurant Details</a>
+                            <a id="{{restaurant.id}}" class="btn btn-large btn-flat ">Add Restaurant Details</a>
                             <input type="hidden" name="name" value="{{restaurant.name}}">
                             <input type="hidden" name="address" value="{{restaurant.formatted_address}}">
                             <input type="hidden" name="latitude" value="{{restaurant.geometry.location.lat}}">
@@ -44,5 +44,4 @@
         </form>
     </div>
 </div>        
-
 {% endblock %}

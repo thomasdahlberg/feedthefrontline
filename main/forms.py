@@ -7,6 +7,7 @@ from django import forms
 
 
 class RestaurantForm(ModelForm):
+
     class Meta:
         model = Restaurant
         fields = [
@@ -20,6 +21,7 @@ class RestaurantForm(ModelForm):
             'lat',
             'lng'
             ]
+        
 
 
 class SignUpForm(UserCreationForm):

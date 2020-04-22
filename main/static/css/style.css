@@ -74,9 +74,7 @@ ul > li {
 ul.inset {
   margin-left: 1.5rem;
 }
-#about > li {
-  margin-bottom: 10px;
-}
+
 footer {
   padding-top: 0;
   background-color: black;
@@ -100,7 +98,7 @@ div.justify-around {
 }
 
 .incomp {
-  color: red;
+  color: #d91818;
 }
 
 
@@ -116,6 +114,20 @@ img.home-ill {
   display: block;
   margin: auto;
 }
+/* ***********
+  About page styles
+  ************* */
+#about li {
+  margin-bottom: 10px;
+}
+/* ***********
+  Add Restaurant styles
+  ************* */
+  .phone-field-ext {
+    color: grey;
+    font-size: 14px;
+  }
+
 /* ***********
   Restaurant Profile page styles
   ************* */
