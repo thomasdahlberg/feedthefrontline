@@ -25,7 +25,7 @@ def update_profile_signal(sender, instance, created, **kwargs):
 class Restaurant(models.Model):
     restaurantName = models.CharField(max_length=100, verbose_name='restaurant Name')
     address = models.CharField(max_length=250)
-    phone = PhoneField(blank=True, help_text='Phone Number')
+    phone = PhoneField()
     url = models.URLField(max_length=200, verbose_name='URL')
     aboutUs = models.TextField(max_length=350, verbose_name='About Us')
     mealCost = models.IntegerField(verbose_name='Meal Cost')

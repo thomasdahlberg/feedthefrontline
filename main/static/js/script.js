@@ -6,6 +6,10 @@ if(document.getElementById("search-results")){
             $("#id_address").val(e.target.previousElementSibling.innerText);
             $("#id_lat").val(e.target.nextElementSibling.nextElementSibling.nextElementSibling.value);
             $("#id_lng").val(e.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.value);
+            $("label[for='id_restaurantName']").addClass("active");
+            $("label[for='id_address']").addClass("active");
+            $("label[for='id_lat']").addClass("active");
+            $("label[for='id_lng']").addClass("active");
         }
     })
 }

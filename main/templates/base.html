@@ -24,11 +24,11 @@
     <header class="navbar-fixed">
         <nav>
             <div class="nav-wrapper">
-                <ul>
-                    <li><a href="/" class="left brand-logo">
-                        <img src="{% static 'images/ftf-logo.svg' %}" alt="Feed the Frontline"></a></li>
-                </ul>
-                <ul class="right">
+                <a href="/" class="left brand-logo">
+                        <img src="{% static 'images/ftf-logo.svg' %}" alt="Feed the Frontline"></a>
+
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'rest_create' %}">Add a Restaurant</a></li>
                     <li><a href="{% url 'rest_index' %}">My Restaurants</a></li>
@@ -39,6 +39,7 @@
                     <li><a href="{% url 'login' %}">Log In</a></li>
                     {% endif %}
                 </ul>
+
             </div>
         </nav>
     </header>
