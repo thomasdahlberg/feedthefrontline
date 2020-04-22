@@ -190,9 +190,17 @@ def add_merchid(request, restaurant_id):
         print(restaurant.merchantID)
         return redirect('rest_profile', restaurant_id=restaurant_id)
 
+@login_required
 def rm_merchid(request, restaurant_id):
     restaurant = Restaurant.objects.get(id=restaurant_id)
     restaurant.merchantID = ''
+    restaurant.save()
+    return redirect('rest_profile', restaurant_id=restaurant_id)
+
+@login_required
+def reset_mealsdonated(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    restaurant.mealsDonated = 0
     restaurant.save()
     return redirect('rest_profile', restaurant_id=restaurant_id)
 
