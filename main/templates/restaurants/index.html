@@ -139,10 +139,10 @@
     let map, infoWindow, marker;
     let restLib = [];
     let facLib = [];
-    let restMax = document.getElementById('counts').getAttribute('data-rest-count');
-    let facMax = document.getElementById('counts').getAttribute('data-rest-count');
+    let restMax = Number(document.getElementById('counts').getAttribute('data-rest-count'));
+    let facMax = Number(document.getElementById('counts').getAttribute('data-fac-count'));
     let prevInfoWindow = false;
-
+    console.log(facMax);
     buildMarkerLibrary(restLib, "r", restMax);
     buildMarkerLibrary(facLib, "f", facMax)
     console.log(restLib);
