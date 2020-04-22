@@ -17,6 +17,7 @@ urlpatterns = [
     path('restaurants/<int:restaurant_id>/add_logo/', views.add_logo, name='add_logo'),
     path('restaurants/<int:restaurant_id>/add_merchid/', views.add_merchid, name='add_merchid'),
     path('restaurants/<int:restaurant_id>/rm_merchid/', views.rm_merchid, name='rm_merchid'),
+    path('restaurants/<int:restaurant_id>/reset_mealsdonated/', views.reset_mealsdonated, name='reset_mealsdonated'),
     path('restaurants/<int:restaurant_id>/add_meals/', views.add_meals, name="add_meals"),
     path('restaurants/<int:restaurant_id>/create_transaction/', views.create_transaction, name='create_transaction')
 ]

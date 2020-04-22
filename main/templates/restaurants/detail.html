@@ -47,6 +47,11 @@
             <h3>Cost: ${{ restaurant.mealCost }}/meal</h3>
             <p>Help us reach our weekly goal of {{ restaurant.goal }} meals!</p>
             <p>Meals ordered so far this week: {{ restaurant.mealsDonated }}</p>
+            <form action="{% url 'reset_mealsdonated' restaurant.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" value="reset">Reset</button>
+            </form>
+            <p>Total meals served: {{ restaurant.totalCollected }}</p>
             <form class="my-5" action="{% url 'add_meals' restaurant.id %}" method="POST">
                 {% csrf_token %}
                 <label for="mealNumber">How many meals would you like to donate?</label>

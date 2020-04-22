@@ -44,6 +44,7 @@ def create_transaction(request, restaurant_id):
     transaction = Transaction(restaurant=restaurant, mealNumber=int(request.GET['meal_number']), dollarAmount=request.GET['dollar_amount'], date=datetime.datetime.now())
     transaction.save()
     restaurant.mealsDonated += int(request.GET['meal_number'])
+    restaurant.totalCollected += int(request.GET['meal_number'])
     restaurant.save()
     src = f'https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2vrGS4CrzO_y8eTO-tyTQOQnt7MPjdxoaECsxPhIrgIiItJ&merchant-id={restaurant.merchantID}'
     print(src)
@@ -189,9 +190,17 @@ def add_merchid(request, restaurant_id):
         print(restaurant.merchantID)
         return redirect('rest_profile', restaurant_id=restaurant_id)
 
+@login_required
 def rm_merchid(request, restaurant_id):
     restaurant = Restaurant.objects.get(id=restaurant_id)
     restaurant.merchantID = ''
+    restaurant.save()
+    return redirect('rest_profile', restaurant_id=restaurant_id)
+
+@login_required
+def reset_mealsdonated(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    restaurant.mealsDonated = 0
     restaurant.save()
     return redirect('rest_profile', restaurant_id=restaurant_id)
 
