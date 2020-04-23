@@ -34,9 +34,10 @@ def add_meals(request, restaurant_id):
     meal_cost = restaurant.mealCost
     meal_number = int(request.POST['mealNumber'])
     dollar_amount = meal_cost * meal_number
+    height = '400px'
     src = f'https://www.paypal.com/sdk/js?client-id=AW8qOudpx51Lg2Tnf0gPtLgar7iOCOsoB2vrGS4CrzO_y8eTO-tyTQOQnt7MPjdxoaECsxPhIrgIiItJ&merchant-id={restaurant.merchantID}'
-    print(src)
-    context = {'restaurant': restaurant, 'dollar_amount': dollar_amount, 'meal_number': meal_number, 'src': src}
+
+    context = {'restaurant': restaurant, 'dollar_amount': dollar_amount, 'meal_number': meal_number, 'src': src, 'height': height}
     return render(request, 'restaurants/detail.html', context)
 
 def create_transaction(request, restaurant_id):
