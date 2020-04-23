@@ -8,7 +8,7 @@
 <div id="confirm-delete" style="display:flex;align-items:center;">
     <form action="" method="post">
         {% csrf_token %}
-            <input type="submit" value="Yes - Delete!" class="btn">
+            <input type="submit" value="Yes - Delete!" class="btn btn-small">
     </form>
     <a href="{% url 'rest_profile' restaurant.id %}" class="btn btn-small btn-flat" style="margin-top:2rem; margin-left:3rem;">Cancel</a>
 </div>
