@@ -88,6 +88,11 @@ ul.inset {
   margin-top: 100px;
 }
 
+@media (max-width: 599px) {
+  .stack {
+    margin-top: 2rem;
+  }
+}
 footer {
   padding-top: 0;
   background-color: black;
