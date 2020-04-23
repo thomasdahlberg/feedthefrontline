@@ -36,7 +36,9 @@ a.brand-logo > img {
     padding-top: 2px;
   }
 }
-
+.sidenav-overlay {
+  background-color: rgba(0,0,0,0);
+}
 /* ***********
   General styles
   ************* */
