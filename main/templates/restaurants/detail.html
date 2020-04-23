@@ -45,7 +45,7 @@
             </ul>
             {% endif %}
             <h3>Cost: ${{ restaurant.mealCost }}/meal</h3>
-            <p>Help us reach our weekly goal of <strong>{{ restaurant.goal }}</stron> meals!</p>
+            <p>Help us reach our weekly goal of <strong>{{ restaurant.goal }}</strong> meals!</p>
             <p>Meals ordered so far this week: {{ restaurant.mealsDonated }}</p>
             
             <form class="my-5" action="{% url 'add_meals' restaurant.id %}" method="POST">
