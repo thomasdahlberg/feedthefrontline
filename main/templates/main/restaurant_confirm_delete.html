@@ -5,10 +5,13 @@
 
 <h4>Are you sure you want to delete {{ object.restaurantName }}?</h4>
 
-<form action="" method="post">
-    {% csrf_token %}
-    <input type="submit" value="Yes - Delete!" class="btn">
-    <a href="{% url 'rest_profile' restaurant.id %}" class="btn btn-small btn-flat">Cancel</a>
-</form>
+<div id="confirm-delete" style="display:flex;align-items:center;">
+    <form action="" method="post">
+        {% csrf_token %}
+            <input type="submit" value="Yes - Delete!" class="btn">
+    </form>
+    <a href="{% url 'rest_profile' restaurant.id %}" class="btn btn-small btn-flat" style="margin-top:2rem; margin-left:3rem;">Cancel</a>
+</div>
+
 
 {% endblock %}

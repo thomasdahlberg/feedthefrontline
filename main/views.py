@@ -89,8 +89,13 @@ def rest_index(request):
     src = f"https://maps.googleapis.com/maps/api/js?key={API_KEY}&libraries=places&callback=initMap"
     restaurants = Restaurant.objects.all().order_by('-id')
     facilities = Facility.objects.all().order_by('-id')
-    rest_max = restaurants[0].id
-    fac_max = facilities[0].id
+    if restaurants.count():
+        rest_max = restaurants[0].id
+    else:
+        rest_max = 1
+    if facilities.count():    
+        fac_max = facilities[0].id
+    else: fac_max = 1
     context = {'restaurants': restaurants, 'facilities': facilities, 'rest_max': rest_max, "fac_max": fac_max, 'user': user, 'src': src}
     return render(request, 'restaurants/index.html', context)
 
@@ -111,6 +116,25 @@ def rest_profile(request, restaurant_id):
             context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities, 'user': user}
             return render(request, 'restaurants/detail.html', context)
     return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo, 'user':user})
+
+def rest_profile_name(request, restaurant_vanityURI):
+    user = request.user
+    error_message = ''
+    restaurant = Restaurant.objects.get(vanityURI=restaurant_vanityURI)
+    rest_facs = restaurant.facility_set.all()
+    logo = restaurant.logo_set.all()
+    print(rest_facs.values('id'))
+    if request.method == 'POST':
+        if request.POST['router'] == "1":
+            print(request)
+            gmaps = googlemaps.Client(key=API_KEY)
+            search_text = request.POST['placestext']
+            result = gmaps.places(query=search_text)
+            facilities = result['results']
+            context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities, 'user': user}
+            return render(request, 'restaurants/detail.html', context)
+    return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo, 'user':user})
+  
 
 @login_required
 def rest_create(request):
@@ -200,6 +224,23 @@ def rm_merchid(request, restaurant_id):
     return redirect('rest_profile', restaurant_id=restaurant_id)
 
 @login_required
+def add_vanity_URI(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    if request.POST['vanityURI']:
+        vanityURI = request.POST['vanityURI']
+        restaurant.vanityURI = vanityURI
+        restaurant.save()
+        print(restaurant.vanityURI)
+        return redirect('rest_profile_name', restaurant_vanityURI=vanityURI)
+
+@login_required
+def rm_vanity_URI(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    restaurant.vanityURI = None
+    restaurant.save()
+    return redirect('rest_profile', restaurant_id=restaurant_id)
+
+@login_required
 def reset_mealsdonated(request, restaurant_id):
     restaurant = Restaurant.objects.get(id=restaurant_id)
     restaurant.mealsDonated = 0
@@ -216,7 +257,6 @@ class RestUpdate(LoginRequiredMixin, UpdateView):
         'aboutUs',
         'mealCost',
         'goal',
-        'merchantID'
     ]
 
     def form_valid(self, form):

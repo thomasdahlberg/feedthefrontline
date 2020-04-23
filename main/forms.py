@@ -3,6 +3,7 @@ from .models import Restaurant
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from django.core import validators
 
 
 
@@ -21,6 +22,7 @@ class RestaurantForm(ModelForm):
             'lat',
             'lng'
             ]
+
         
 
 

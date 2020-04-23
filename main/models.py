@@ -27,6 +27,13 @@ class Restaurant(models.Model):
     address = models.CharField(max_length=250)
     phone = PhoneField()
     url = models.URLField(max_length=200, verbose_name='URL')
+    vanityURI = models.SlugField(
+                max_length=100,
+                verbose_name='Restaurant URI',
+                unique=True,
+                null=True,
+                default=None
+                )
     aboutUs = models.TextField(max_length=350, verbose_name='About Us')
     mealCost = models.IntegerField(verbose_name='Meal Cost')
     merchantID = models.CharField(max_length=100, verbose_name='PayPal Merchant ID')
