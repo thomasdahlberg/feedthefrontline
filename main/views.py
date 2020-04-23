@@ -3,6 +3,7 @@ import datetime
 import boto3
 import googlemaps
 
+from django.conf import settings as conf_settings
 from django.shortcuts import render, redirect, reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import JsonResponse, HttpResponse
@@ -14,9 +15,9 @@ from .forms import RestaurantForm, SignUpForm
 
 from .models import Restaurant, Transaction, Facility, Profile, Logo
 
-API_KEY = 'AIzaSyCSoVHw83uV_E-uSqxMW7nTxuT4OQCL2m4'
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'feedthefrontline'
+API_KEY=conf_settings.API_KEY
 
 # Create your views here.
 def home(request):
@@ -85,11 +86,12 @@ def signup(request):
 
 def rest_index(request):
     user = request.user
+    src = f"https://maps.googleapis.com/maps/api/js?key={API_KEY}&libraries=places&callback=initMap"
     restaurants = Restaurant.objects.all().order_by('-id')
     facilities = Facility.objects.all().order_by('-id')
     rest_max = restaurants[0].id
     fac_max = facilities[0].id
-    context = {'restaurants': restaurants, 'facilities': facilities, 'rest_max': rest_max, "fac_max": fac_max, 'user': user}
+    context = {'restaurants': restaurants, 'facilities': facilities, 'rest_max': rest_max, "fac_max": fac_max, 'user': user, 'src': src}
     return render(request, 'restaurants/index.html', context)
 
 def rest_profile(request, restaurant_id):

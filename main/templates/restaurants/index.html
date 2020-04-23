@@ -145,6 +145,7 @@
     console.log(restLib);
     console.log(facLib);
 
+
     function buildMarkerLibrary(lib, prefix, max){
         for(let i = 1; i <= max; i++){
             let getEl = document.getElementById(`${prefix}${i}`);
@@ -301,6 +302,6 @@
         infoWindow.open(map);
     }
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSoVHw83uV_E-uSqxMW7nTxuT4OQCL2m4&libraries=places&callback=initMap"></script>
+    <script async defer src="{{ src }}"></script>
 
 {% endblock %}
