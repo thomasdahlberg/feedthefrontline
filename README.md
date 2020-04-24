@@ -15,7 +15,7 @@ Our model is different than others, in that restaurants can sign up themselves a
 Adrienne Grace, Thomas Dahlberg & Daniel Usem
 
 ## Screenshots
-![Style Guide](./main/static/images/FtF_style-guide.jpg)
+![Style Guide](./main/static/images/FtF_brand-guide.jpg)
 
 ![Home Screen](./main/static/images/Homepage.png)
 
@@ -24,12 +24,16 @@ Adrienne Grace, Thomas Dahlberg & Daniel Usem
 ![Restaurant Profile](./main/static/images/Rest_Profile.png)
 
 ## Technologies Used
-HTML5, CSS3, PostgreSQL, Python, Django, jQuery, Heroku, Materialize, Google Places API
+HTML5, CSS3, PostgreSQL, Python, Django, jQuery, Heroku, Materialize, Google Places API, Google Maps Javascript API, Geolocation API, Paypal
+
+Feed the Frontline (FtF) is a full-stack web application built on the Python-Django framework. It consumes both Google Maps and Google Places APIs to geolocate existing restaurants and healthcare facilities, store them in the database and display them as markers on an interactive map for end users. Leveraging the HTML5 Geolocation API, FtF's clientside locates the browser user and serves them a map of their surrounding area that shows local restaurants and facilities that are participants in FtF.
 
 ## Pitch Deck
 https://docs.google.com/presentation/d/1u70reJtMoxyudcNyyvaGKvSydfR--OblwXz4aEa79XA/edit#slide=id.g730cce87bd_0_260
 
 ## Getting Started
+To start using the application navigate to the Heroku Development link below and choose your narrative: Are you a restaurant looking to keep staff employed and healthcare workers fed? Or are you stuck at home, but want to make difference by donating to a local restaurant feeding the frontline? Restauranteurs can quickly register a user account, create a restaurant profile and start meal delivery campaign that they can promote online with a personalized URL. Donators need only peruse a google map of local restaurants and healthcare facilities, pick one, decide how many meals they want to donate and complete a quick Paypal transaction.
+
 https://trello.com/b/VGtKuk92/feed-the-frontline
 
 ## Heroku Deployment
