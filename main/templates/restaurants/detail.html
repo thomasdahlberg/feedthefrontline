@@ -45,26 +45,27 @@
             </ul>
             {% endif %}
             <h3>Cost: ${{ restaurant.mealCost }}/meal</h3>
+            <small>Includes cost of food, wages, sales tax and delivery</small>
             <p>Help us reach our weekly goal of <strong>{{ restaurant.goal }}</strong> meals!</p>
             <p>Meals ordered so far this week: {{ restaurant.mealsDonated }}</p>
-            <div class="card">
+        <div class="card" id="paymentBox" style="height: {{ height }}">
                 <div class="card-content">
-                    <form class="my-5" action="{% url 'add_meals' restaurant.id %}" method="POST">
+                    <form action="{% url 'add_meals' restaurant.id %}" method="POST">
                         {% csrf_token %}
                         <label for="mealNumber">How many meals would you like to donate?</label>
                          <input type="number" name="mealNumber" id="mealNumber" required>
                          <input type="submit" value="Add to cart" class="btn btn-flat">
                     </form>
                     <h4 id="paypal" data-dollarAmount="{{ dollar_amount }}">Total: ${{ dollar_amount }}</h4>
-        
-                </div>
-            </div>
-            <div class="col s4 m1" id="paypal-button-container" onclick="createTransaction()"></div>
+                    <div class="col s4 m1" id="paypal-button-container" onclick="createTransaction()"></div>
                     <form id="createTransaction" action="{% url 'create_transaction' restaurant.id %}" class="hidden">
                         <input type="hidden" name="meal_number" value="{{ meal_number }}">
                         <input type="hidden" name="dollar_amount" value="{{ dollar_amount }}">
                         <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
                     </form>
+        
+                </div>
+            </div>
             
         </div>
         {% if user.is_authenticated %}
