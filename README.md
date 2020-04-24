@@ -5,7 +5,13 @@ A Django web application for connecting donors, restaurants and healthcare worke
 Adrienne Grace, Thomas Dahlberg & Daniel Usem
 
 ## Screenshots
-![Home Screen](./main/static/images/feed-the-frontline-comp.jpg)
+![Style Guide](./main/static/images/FtF_style-guide.jpg)
+
+![Home Screen](./main/static/images/Homepage.png)
+
+![My Restaurants](./main/static/images/My_Restaurants.png)
+
+![Restaurant Profile](./main/static/images/Rest_Profile.png)
 
 ## Technologies Used
 HTML5, CSS3, PostgreSQL, Python, Django, jQuery, Heroku, Materialize, Google Places API
@@ -16,7 +22,7 @@ https://docs.google.com/presentation/d/1u70reJtMoxyudcNyyvaGKvSydfR--OblwXz4aEa7
 ## Getting Started
 https://trello.com/b/VGtKuk92/feed-the-frontline
 
-Heroku Link
+https://feed-the-frontline.herokuapp.com
 
 ## Future Enhancements
 
