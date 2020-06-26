@@ -170,6 +170,10 @@
         <div class="col s12 l4 offset-l1 total">
             <h3 class="center-align">Total meals served:<br><span class="rust">{{ restaurant.totalCollected }}</span></h3>
         </div>
+        <div class="col s12 l4 offset-l1">
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <canvas id="myChart" width="300" height="400" aria-label="chart of meal donations against goal number" role="img"></canvas>
+        </div>
         {% endif %}
     </div>
 </div>
@@ -218,4 +222,48 @@
     }).render('#paypal-button-container');
     //This function displays Smart Payment Buttons on your web page.
   </script>
+
+
+<script>
+    let ctx = document.getElementById('myChart').getContext('2d');
+    let mealsDonated = "{{ mealsDonated }}";
+    let goal = "{{ goal }}"
+    let myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Donated'],
+            datasets: [{
+                label: '# of Meals Donated',
+                data: [mealsDonated],
+                backgroundColor: [
+                    'rgba(217, 117, 59, 1)'
+                ]
+            },
+            {
+                label: 'Goal meals',
+                data: [goal],
+                backgroundColor: [
+                    'rgba(226, 226, 226, 1)'
+                ]
+            }
+            ]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                stacked: true,
+                gridLines: { display: false },
+            }],
+            yAxes: [{
+                stacked: true,
+                gridLines: { display: true },
+            }]
+            },
+            title: {
+            display: true,
+            text: 'Help us reach our weekly goal'
+            }
+        }
+    });
+</script>
 {% endblock %}

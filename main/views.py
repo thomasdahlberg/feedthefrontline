@@ -83,7 +83,7 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
-# Restarant Views (Visitor Visible)
+# Restaurant Views (Visitor Visible)
 
 def rest_index(request):
     user = request.user
@@ -106,6 +106,8 @@ def rest_profile(request, restaurant_id):
     restaurant = Restaurant.objects.get(id=restaurant_id)
     rest_facs = restaurant.facility_set.all()
     logo = restaurant.logo_set.all()
+    goal = restaurant.goal
+    mealsDonated = restaurant.mealsDonated
     print(rest_facs.values('id'))
     if request.method == 'POST':
         if request.POST['router'] == "1":
@@ -116,7 +118,14 @@ def rest_profile(request, restaurant_id):
             facilities = result['results']
             context = {'restaurant':restaurant, 'error_message': error_message, 'facilities': facilities, 'user': user}
             return render(request, 'restaurants/detail.html', context)
-    return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo, 'user':user})
+    return render(request, 'restaurants/detail.html', { 'restaurant': restaurant, 'rest_facs': rest_facs, 'logo': logo, 'user':user, 'goal': goal, 'mealsDonated': mealsDonated})
+
+def get_data(request, restaurant_id):
+    data = {
+        "sales": 100,
+        "customers": 10,
+    }
+    return JsonResponse(data)
 
 def rest_profile_name(request, restaurant_vanityURI):
     user = request.user
